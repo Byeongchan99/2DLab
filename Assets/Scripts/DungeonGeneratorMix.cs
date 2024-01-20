@@ -24,7 +24,7 @@ public class DungeonGeneratorMix : MonoBehaviour
     [Range(0, 100)]
     [SerializeField] private int randomFillPercent; // 맵의 통로와 벽 비율
 
-    private int[,] map, oldMap;
+    private int[,] map, oldMap; // 맵 정보 저장 배열
     // 타일 타입
     private const int ROAD = 0; // 통로
     private const int WALL = 1; // 벽
@@ -35,11 +35,12 @@ public class DungeonGeneratorMix : MonoBehaviour
     [SerializeField] private Tile roadTile; // 통로 타일
     [SerializeField] private Tile permarnantRoadTile; // 영구적인 통로 타일
     [SerializeField] private Tile wallTile; // 벽 타일
+    [SerializeField] private Tile permarnantWallTile; // 영구적인 벽 타일
 
     public void GenerateDungeon()
     {
-        ResetDungeon();  // 던전 초기화 호출
-        GenerateMap();
+        ResetDungeon(); // 던전 초기화 호출
+        GenerateMap(); // 맵 생성 
 
         // BSP 알고리즘 실행
         OnDrawRectangle(0, 0, mapSize.x, mapSize.y); // 맵 크기에 맞게 벽을 그림
@@ -48,7 +49,7 @@ public class DungeonGeneratorMix : MonoBehaviour
         GenerateRoom(rootNode, 0); // 방 생성
         ConnectRoad(rootNode, 0); // 길 연결
 
-        // 생성된 맵 확인
+        // BSP로 생성된 맵 확인
         for (int x = 0; x < mapSize.x; x++)
         {
             for (int y = 0; y < mapSize.y; y++)
@@ -58,13 +59,20 @@ public class DungeonGeneratorMix : MonoBehaviour
         }
     }
 
-    public void CellularAutomata()
+    // 던전 초기화 메서드
+    public void ResetDungeon()
     {
-        // 셀룰러 오토마타 실행
-        MapRandomFill();
-        SmoothMap();
+        // 타일맵의 모든 타일 제거
+        tilemap.ClearAllTiles();
+
+        // 라인 렌더러 객체들 파괴
+        foreach (Transform child in lineHolder)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
+    // 맵 생성
     private void GenerateMap()
     {
         map = new int[mapSize.x, mapSize.y];
@@ -82,99 +90,7 @@ public class DungeonGeneratorMix : MonoBehaviour
         }
     }
 
-    // 맵을 비율에 따라 벽 혹은 빈 공간으로 랜덤하게 채우는 메서드
-    private void MapRandomFill()
-    {
-        if (useRandomSeed) // 시드 사용 여부
-            seed = Time.time.ToString(); // 시드 생성
-
-        System.Random pseudoRandom = new System.Random(seed.GetHashCode()); // 의사 난수 생성
-
-        for (int x = 0; x < mapSize.x; x++)
-        {
-            for (int y = 0; y < mapSize.y; y++)
-            {
-                if (map[x, y] == WALL) // 방과 통로를 생성하고 남은 공간을 다시 랜덤으로 채움               
-                    map[x, y] = (pseudoRandom.Next(0, 100) < randomFillPercent) ? WALL : ROAD; // 비율에 따라 벽 또는 통로로 설정
-            }
-        }
-    }
-
-    // 원래 맵 정보 저장
-    private void CreateOldMap()
-    {
-        for (int x = 0; x < mapSize.x; x++)
-        {
-            for (int y = 0; y < mapSize.y; y++)
-            {
-                oldMap[x, y] = map[x, y];
-            }
-        }
-    }
-
-    // 맵의 타일들을 순회하며 경계면을 다듬는 메서드
-    public void SmoothMap()
-    {
-        CreateOldMap(); // 원래 맵 정보 저장
-
-        for (int x = 0; x < mapSize.x; x++)
-        {
-            for (int y = 0; y < mapSize.y; y++)
-            {
-                if (map[x, y] == PERMARNANT_ROAD || map[x, y] == PERMARNANT_WALL) // 영구적인 통로나 벽이면 변화 X
-                    continue;
-                int neighbourWallTiles = GetSurroundingWallCount(x, y); // 주변 벽 타일 개수 계산
-                if (neighbourWallTiles > referenceWallCount)
-                    map[x, y] = WALL; // 주변 칸 중 벽이 기준 벽 타일 개수를 초과할 경우 현재 타일을 벽으로 설정
-                else if (neighbourWallTiles < referenceWallCount)
-                    map[x, y] = ROAD; // 주변 칸 중 벽이 기준 벽 타일 개수 미만일 경우 현재 타일을 통로로 설정
-                OnDrawTile(x, y, map[x, y]); // 타일 색상 변경
-            }
-        }
-    }
-
-    // 주변의 벽 타일 개수를 계산하는 메서드
-    private int GetSurroundingWallCount(int x, int y)
-    {
-        int wallCount = 0;
-
-        // 현재 좌표를 기준으로 주변 8칸 검사
-        for (int neighbourX = x - 1; neighbourX <= x + 1; neighbourX++)
-        {
-            for (int neighbourY = y - 1; neighbourY <= y + 1; neighbourY++)
-            {
-                // 맵 범위 검사
-                if (neighbourX >= 0 && neighbourX < mapSize.x && neighbourY >= 0 && neighbourY < mapSize.y)
-                {
-                    // 값이 바뀌지 않은 oldMap 정보 사용
-                    if (neighbourX != x || neighbourY != y)
-                    {
-                        // 주변 타일이 벽이거나 영구적인 벽일 때
-                        if (oldMap[neighbourX, neighbourY] == 1 || oldMap[neighbourX, neighbourY] == 3)
-                            wallCount += 1;
-                    }
-                }
-                else  // 주변 타일이 맵 범위를 벗어날 경우(현재 타일이 가장자리 타일)
-                    wallCount++;
-            }
-        }
-        return wallCount;
-    }
-
-    // 타일 타입에 따라 타일 생성
-    private void OnDrawTile(int x, int y, int tileType)
-    {
-        Vector3Int pos = new Vector3Int(x - mapSize.x / 2, y - mapSize.y / 2, 0); // 중앙 정렬
-
-        // 통로 또는 영구적인 통로
-        if (tileType == ROAD)
-            tilemap.SetTile(pos, roadTile);
-        else if (tileType == PERMARNANT_ROAD)
-            tilemap.SetTile(pos, permarnantRoadTile);
-        else
-            tilemap.SetTile(pos, wallTile);
-    }
-
+    // BSP 알고리즘
     // 트리 분할
     private void DivideTree(TreeNode treeNode, int n)
     {
@@ -212,14 +128,14 @@ public class DungeonGeneratorMix : MonoBehaviour
             RectInt size = treeNode.treeSize;
 
             // 방의 가로와 세로 크기를 1부터 절반 크기까지로 설정
-            int width = Mathf.Max(1, Random.Range(1, size.width / 2 + 1));
-            int height = Mathf.Max(1, Random.Range(1, size.height / 2 + 1));
+            int width = Mathf.Max(1, Random.Range(2, size.width / 2 + 1));
+            int height = Mathf.Max(1, Random.Range(2, size.height / 2 + 1));
 
             // 방의 위치 설정
             int x = treeNode.treeSize.x + Random.Range(1, size.width - width);
             int y = treeNode.treeSize.y + Random.Range(1, size.height - height);
 
-            OnDrawRoom(x, y, width, height); // 방 렌더링
+            OnDrawRoom(x, y, width, height); // 방 설정
             return new RectInt(x, y, width, height); // 리턴 값은 실제로 생성된 방의 크기(roomSize) 값으로 사용
         }
 
@@ -227,7 +143,6 @@ public class DungeonGeneratorMix : MonoBehaviour
         treeNode.rightTree.roomSize = GenerateRoom(treeNode.rightTree, n + 1);
         return treeNode.leftTree.roomSize; // 왼쪽 자식 트리의 방 크기 반환
     }
-
 
     // 길 연결
     private void ConnectRoad(TreeNode treeNode, int n)
@@ -240,8 +155,8 @@ public class DungeonGeneratorMix : MonoBehaviour
         int y1 = GetCenterY(treeNode.leftTree.roomSize);
         int y2 = GetCenterY(treeNode.rightTree.roomSize);
         for (int x = Mathf.Min(x1, x2); x <= Mathf.Max(x1, x2); x++) // x1과 x2 중 값이 작은 곳부터 값이 큰 곳까지 영구적인 통로로 설정
-            map[x, y1] = PERMARNANT_ROAD; // mapSize의 절반을 빼서 화면 중앙에 맞춤
-        for (int y = Mathf.Min(y1, y2); y <= Mathf.Max(y1, y2); y++)
+            map[x, y1] = PERMARNANT_ROAD;
+        for (int y = Mathf.Min(y1, y2); y <= Mathf.Max(y1, y2); y++) // y1과 y2 중 값이 작은 곳부터 값이 큰 곳까지 영구적인 통로로 설정
             map[x2, y] = PERMARNANT_ROAD;
         ConnectRoad(treeNode.leftTree, n + 1);
         ConnectRoad(treeNode.rightTree, n + 1);
@@ -255,7 +170,7 @@ public class DungeonGeneratorMix : MonoBehaviour
         lineRenderer.SetPosition(1, to - mapSize / 2);
     }
 
-    // 방의 크기에 맞춰 타일 생성
+    // 방의 크기에 맞춰 방 설정
     private void OnDrawRoom(int x, int y, int width, int height)
     {
         for (int i = x; i < x + width; i++)
@@ -285,16 +200,107 @@ public class DungeonGeneratorMix : MonoBehaviour
         return size.y + size.height / 2;
     }
 
-    // 던전 초기화 메서드
-    public void ResetDungeon()
+    // 셀룰러 오토마타 실행
+    public void CellularAutomata()
     {
-        // 타일맵의 모든 타일 제거
-        tilemap.ClearAllTiles();
+        MapRandomFill(); // 맵 채우기
+        SmoothMap(); // 스무딩 실행
+    }
 
-        // 라인 렌더러 객체들 파괴
-        foreach (Transform child in lineHolder)
+    // 맵을 비율에 따라 벽 혹은 빈 공간으로 랜덤하게 채우는 메서드
+    private void MapRandomFill()
+    {
+        if (useRandomSeed) // 시드 사용 여부
+            seed = Time.time.ToString(); // 시드 생성
+
+        System.Random pseudoRandom = new System.Random(seed.GetHashCode()); // 의사 난수 생성
+
+        for (int x = 0; x < mapSize.x; x++)
         {
-            Destroy(child.gameObject);
+            for (int y = 0; y < mapSize.y; y++)
+            {
+                if (map[x, y] == WALL) // 방과 통로를 생성하고 남은 공간을 다시 랜덤으로 채움               
+                    map[x, y] = (pseudoRandom.Next(0, 100) < randomFillPercent) ? WALL : ROAD; // 비율에 따라 벽 또는 통로로 설정
+            }
         }
+    }
+
+    // 맵의 타일들을 순회하며 경계면을 다듬는 메서드
+    public void SmoothMap()
+    {
+        CreateOldMap(); // 원래 맵 정보 저장
+
+        for (int x = 0; x < mapSize.x; x++)
+        {
+            for (int y = 0; y < mapSize.y; y++)
+            {
+                if (map[x, y] == PERMARNANT_ROAD || map[x, y] == PERMARNANT_WALL) // 영구적인 통로나 벽이면 변화 X
+                    continue;
+
+                int neighbourWallTiles = GetSurroundingWallCount(x, y); // 주변 벽 타일 개수 계산
+
+                if (neighbourWallTiles > referenceWallCount)
+                    map[x, y] = WALL; // 주변 칸 중 벽이 기준 벽 타일 개수를 초과할 경우 현재 타일을 벽으로 설정
+                else if (neighbourWallTiles < referenceWallCount)
+                    map[x, y] = ROAD; // 주변 칸 중 벽이 기준 벽 타일 개수 미만일 경우 현재 타일을 통로로 설정
+
+                OnDrawTile(x, y, map[x, y]); // 타일 색상 변경
+            }
+        }
+    }
+
+    // 원래 맵 정보 저장
+    private void CreateOldMap()
+    {
+        for (int x = 0; x < mapSize.x; x++)
+        {
+            for (int y = 0; y < mapSize.y; y++)
+            {
+                oldMap[x, y] = map[x, y];
+            }
+        }
+    }
+
+    // 주변의 벽 타일 개수를 계산하는 메서드
+    private int GetSurroundingWallCount(int x, int y)
+    {
+        int wallCount = 0;
+
+        // 현재 좌표를 기준으로 주변 8칸 검사
+        for (int neighbourX = x - 1; neighbourX <= x + 1; neighbourX++)
+        {
+            for (int neighbourY = y - 1; neighbourY <= y + 1; neighbourY++)
+            {
+                // 맵 범위 검사
+                if (neighbourX >= 0 && neighbourX < mapSize.x && neighbourY >= 0 && neighbourY < mapSize.y)
+                {
+                    // 값이 바뀌지 않은 oldMap 정보 사용
+                    if (neighbourX != x || neighbourY != y)
+                    {
+                        // 주변 타일이 벽이거나 영구적인 벽일 때
+                        if (oldMap[neighbourX, neighbourY] == 1 || oldMap[neighbourX, neighbourY] == 3)
+                            wallCount += 1;
+                    }
+                }
+                else  // 주변 타일이 맵 범위를 벗어날 경우(현재 타일이 가장자리 타일)
+                    wallCount++;
+            }
+        }
+        return wallCount;
+    }
+
+    // 타일 타입에 따라 타일 생성
+    private void OnDrawTile(int x, int y, int tileType)
+    {
+        Vector3Int pos = new Vector3Int(x - mapSize.x / 2, y - mapSize.y / 2, 0); // 중앙 정렬
+
+        if (tileType == ROAD) // 통로
+            tilemap.SetTile(pos, roadTile);
+        else if (tileType == PERMARNANT_ROAD) // 영구적인 통로
+            tilemap.SetTile(pos, permarnantRoadTile);
+        else if (tileType == WALL) // 벽
+            tilemap.SetTile(pos, wallTile);
+        else // 영구적인 벽
+            tilemap.SetTile(pos, permarnantWallTile);
     }
 }

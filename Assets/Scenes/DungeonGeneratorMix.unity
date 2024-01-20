@@ -163,11 +163,12 @@ MonoBehaviour:
   seed: 
   useRandomSeed: 1
   referenceWallCount: 4
-  randomFillPercent: 60
+  randomFillPercent: 57
   tilemap: {fileID: 1844716729}
   roadTile: {fileID: 11400000, guid: 07f072ff6cf71d74c98bf813c8533edb, type: 2}
   permarnantRoadTile: {fileID: 11400000, guid: c437fd64f53e64948b4f385bbbe300fd, type: 2}
   wallTile: {fileID: 11400000, guid: 5852acbd5ab103d42aa9dd197f1ccbe9, type: 2}
+  permarnantWallTile: {fileID: 11400000, guid: a61e571e807a5084ea2e339f34a19480, type: 2}
 --- !u!4 &9877098
 Transform:
   m_ObjectHideFlags: 0
@@ -1029,10 +1030,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
