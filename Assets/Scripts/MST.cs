@@ -34,7 +34,7 @@ public class MST : MonoBehaviour
         }
     }
 
-    // 라인렌더러로 만들어진 최소 스패닝 트리 표시
+    // 라인 렌더러로 만들어진 최소 스패닝 트리 표시
     private void CreateLine(Vector3 start, Vector3 end)
     {
         GameObject lineGO = Instantiate(linePrefab, MSTHolder.transform);

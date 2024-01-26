@@ -10,10 +10,10 @@ public class StartTriangulation : MonoBehaviour
     public List<GameObject> points; // 정점 리스트
     public Transform vertexHolder; // 생성된 Point들을 모아놓은 빈 오브젝트
 
-    [SerializeField] private GameObject linePrefab; // 라인렌더러 프리팹
-    public Transform edgeHoler; // 생성된 라인렌더러들을 모아놓은 빈 오브젝트
+    [SerializeField] private GameObject linePrefab; // 라인 렌더러 프리팹
+    public Transform edgeHoler; // 생성된 라인 렌더러들을 모아놓은 빈 오브젝트
     public List<Edge> edges = new List<Edge>(); // Edge 리스트
-    public List<GameObject> lines = new List<GameObject>(); // 생성된 라인렌더러 오브젝트들을 저장할 리스트
+    public List<GameObject> lines = new List<GameObject>(); // 생성된 라인 렌더러 오브젝트들을 저장할 리스트
     private HashSet<string> createdLines = new HashSet<string>(); // 생성된 라인의 중복 여부를 검사하기 위한 HashSet
 
     public MST mstAlgorithms; // 최소 스패닝 트리 알고리즘
@@ -40,7 +40,7 @@ public class StartTriangulation : MonoBehaviour
         lines.Clear();
 
         // 새로운 라인 생성
-        // 삼각형들을 순회하며 라인렌더러를 통해 중복없이 edge 생성 
+        // 삼각형들을 순회하며 라인 렌더러를 통해 중복없이 edge 생성 
         foreach (var triangle in triangles)
         {
             TryCreateLine(triangle.vertex0.index, triangle.vertex1.index);
@@ -98,7 +98,7 @@ public class StartTriangulation : MonoBehaviour
         points.Add(newGameObject);
     }
 
-    // 중복없이 라인렌더러로 line 생성
+    // 중복없이 라인 렌더러로 line 생성
     private void TryCreateLine(int index1, int index2)
     {
         // 두 인덱스를 정렬하여 고유한 키 생성
@@ -116,7 +116,7 @@ public class StartTriangulation : MonoBehaviour
         }
     }
 
-    // 라인렌더러 생성 메서드
+    // 라인 렌더러 생성 메서드
     private void CreateLine(Vector3 start, Vector3 end)
     {
         GameObject lineGO = Instantiate(linePrefab, edgeHoler.transform); // Instantiate with lineParent as parent

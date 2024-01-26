@@ -14,7 +14,7 @@ public class DungeonGeneratorFinal : MonoBehaviour
 
     [SerializeField] private GameObject line; // 던전의 분할선 표시
     [SerializeField] private Transform lineHolder; // line 객체들을 담는 부모 게임 오브젝트
-    [SerializeField] private GameObject rectangle; // 던전의 경계선 표시
+    //[SerializeField] private GameObject rectangle; // 던전의 경계선 표시
 
     [SerializeField] private string seed; // 난수 생성하기 위한 시드
     [SerializeField] private bool useRandomSeed; // 시드 사용 여부
@@ -41,20 +41,18 @@ public class DungeonGeneratorFinal : MonoBehaviour
 
     public Transform MSTHolder;
 
-    public void GenerateDungeon()
+    // BSP 알고리즘으로 방 생성
+    public void GenerateRoomWithBSP()
     {
         ResetDungeon(); // 던전 초기화 호출
         GenerateMap(); // 맵 생성 
 
         // BSP 알고리즘 실행
-        OnDrawRectangle(0, 0, mapSize.x, mapSize.y); // 맵 크기에 맞게 벽을 그림
+        //OnDrawRectangle(0, 0, mapSize.x, mapSize.y); // 맵 크기에 맞게 벽을 그림
         TreeNode rootNode = new TreeNode(0, 0, mapSize.x, mapSize.y); // 루트 노드 생성
         DivideTree(rootNode, 0); // 트리 분할
         GenerateRoom(rootNode, 0); // 방 생성
         //ConnectRoad(rootNode, 0); // 길 연결
-
-        startTriangulation.StartDelaunayTriangulation(); // 들로네 삼각분할 실행
-        GenerateRoad(); // 통로 생성
 
         // BSP로 생성된 맵 확인
         for (int x = 0; x < mapSize.x; x++)
@@ -63,7 +61,23 @@ public class DungeonGeneratorFinal : MonoBehaviour
             {
                 OnDrawTile(x, y, map[x, y]);
             }
-        }      
+        }
+    }
+
+    // 들로네 삼각분할과 MST로 통로 생성
+    public void GenerateRoadWithDelaunayTriangulationAndMST()
+    {
+        startTriangulation.StartDelaunayTriangulation(); // 들로네 삼각분할 실행
+        GenerateRoad(); // 통로 생성
+        GeneratePermarnantWall(); // 영구적인 벽 생성
+
+        for (int x = 0; x < mapSize.x; x++)
+        {
+            for (int y = 0; y < mapSize.y; y++)
+            {
+                OnDrawTile(x, y, map[x, y]);
+            }
+        }
     }
 
     // 던전 초기화 메서드
@@ -157,32 +171,102 @@ public class DungeonGeneratorFinal : MonoBehaviour
     // 통로 생성 메서드
     private void GenerateRoad()
     {
-        // MST로 생성된 간선들을 순회하며 통로 생성
         foreach (Transform child in MSTHolder)
         {
             LineRenderer lineRenderer = child.GetComponent<LineRenderer>();
             Vector3 start = lineRenderer.GetPosition(0);
             Vector3 end = lineRenderer.GetPosition(1);
 
-            Debug.Log(start + " " + end);
-
-            // 시작점에서 중간점까지의 경로 생성
+            // 시작점에서 끝점까지의 경로 생성
             for (int x = Mathf.RoundToInt(start.x); x != Mathf.RoundToInt(end.x); x += Mathf.RoundToInt(start.x) < Mathf.RoundToInt(end.x) ? 1 : -1)
             {
-                Debug.Log(x + " " + Mathf.RoundToInt(start.y));
-                Debug.Log(x + mapSize.x / 2 + " " + Mathf.RoundToInt(start.y) + mapSize.y / 2);
-                map[x + mapSize.x / 2, Mathf.RoundToInt(start.y) + mapSize.y/ 2] = PERMARNANT_ROAD;
+                int adjustedX = x + mapSize.x / 2;
+                int adjustedY = Mathf.RoundToInt(start.y) + mapSize.y / 2;
+                if (adjustedX >= 0 && adjustedX < mapSize.x && adjustedY >= 0 && adjustedY < mapSize.y)
+                {
+                    map[adjustedX, adjustedY] = PERMARNANT_ROAD;
+                }
             }
 
             // 중간점에서 끝점까지의 경로 생성
             for (int y = Mathf.RoundToInt(start.y); y != Mathf.RoundToInt(end.y); y += Mathf.RoundToInt(start.y) < Mathf.RoundToInt(end.y) ? 1 : -1)
             {
-                Debug.Log(Mathf.RoundToInt(end.x) + " " + y);
-                Debug.Log(Mathf.RoundToInt(end.x) + mapSize.x / 2 + " " + y + mapSize.y / 2);
-                map[Mathf.RoundToInt(end.x) + mapSize.x / 2, y + mapSize.y / 2] = PERMARNANT_ROAD;
+                int adjustedX = Mathf.RoundToInt(end.x) + mapSize.x / 2;
+                int adjustedY = y + mapSize.y / 2;
+                if (adjustedX >= 0 && adjustedX < mapSize.x && adjustedY >= 0 && adjustedY < mapSize.y)
+                {
+                    map[adjustedX, adjustedY] = PERMARNANT_ROAD;
+                }
             }
         }
     }
+
+    // 영구적인 벽 생성 메서드
+    private void GeneratePermarnantWall()
+    {
+        // 던전 분할선 라인 렌더러 객체들 순회
+        foreach (Transform child in lineHolder)
+        {
+            LineRenderer lineRenderer = child.GetComponent<LineRenderer>();
+            Vector3 start = lineRenderer.GetPosition(0);
+            Vector3 end = lineRenderer.GetPosition(1);
+
+            // 경로상에 영구적인 통로가 있는지 검사
+            bool hasPermanentRoad = false;
+
+            // 가로선일 때
+            if (Mathf.RoundToInt(start.y) == Mathf.RoundToInt(end.y))
+            {
+                int y = Mathf.RoundToInt(start.y);
+                // 경로 검사
+                for (int x = Mathf.Min(Mathf.RoundToInt(start.x), Mathf.RoundToInt(end.x)); x < Mathf.Max(Mathf.RoundToInt(start.x), Mathf.RoundToInt(end.x)); x++)
+                {
+                    if (map[x + mapSize.x / 2, y + mapSize.y / 2] == PERMARNANT_ROAD) // 통로가 존재할 때
+                    {
+                        hasPermanentRoad = true;
+                        break;
+                    }
+                }
+            }
+            // 세로선일 때
+            else
+            {
+                int x = Mathf.RoundToInt(start.x);
+                for (int y = Mathf.Min(Mathf.RoundToInt(start.y), Mathf.RoundToInt(end.y)); y < Mathf.Max(Mathf.RoundToInt(start.y), Mathf.RoundToInt(end.y)); y++)
+                {
+                    if (map[x + mapSize.x / 2, y + mapSize.y / 2] == PERMARNANT_ROAD)
+                    {
+                        hasPermanentRoad = true;
+                        break;
+                    }
+                }
+            }
+
+            // 경로 상에 영구적인 통로가 없으면 영구적인 벽으로 설정
+            if (!hasPermanentRoad)
+            {
+                // 가로선일 때
+                if (Mathf.RoundToInt(start.y) == Mathf.RoundToInt(end.y))
+                {
+                    int y = Mathf.RoundToInt(start.y);
+                    for (int x = Mathf.Min(Mathf.RoundToInt(start.x), Mathf.RoundToInt(end.x)); x < Mathf.Max(Mathf.RoundToInt(start.x), Mathf.RoundToInt(end.x)); x++)
+                    {
+                        map[x + mapSize.x / 2, y + mapSize.y / 2] = PERMARNANT_WALL;
+                    }
+                }
+                // 세로선일 때
+                else
+                {
+                    int x = Mathf.RoundToInt(start.x);
+                    for (int y = Mathf.Min(Mathf.RoundToInt(start.y), Mathf.RoundToInt(end.y)); y < Mathf.Max(Mathf.RoundToInt(start.y), Mathf.RoundToInt(end.y)); y++)
+                    {
+                        map[x + mapSize.x / 2, y + mapSize.y / 2] = PERMARNANT_WALL;
+                    }
+                }
+            }
+        }
+    }
+
 
     /*
     // 길 연결
@@ -220,6 +304,7 @@ public class DungeonGeneratorFinal : MonoBehaviour
                 map[i, j] = PERMARNANT_ROAD; // 영구적인 통로 생성
     }
 
+    /*
     // 라인 렌더러를 사용해 던전 경계선 생성
     private void OnDrawRectangle(int x, int y, int width, int height)
     {
@@ -229,6 +314,7 @@ public class DungeonGeneratorFinal : MonoBehaviour
         lineRenderer.SetPosition(2, new Vector2(x + width, y + height) - mapSize / 2);
         lineRenderer.SetPosition(3, new Vector2(x, y + height) - mapSize / 2);
     }
+    */
 
     // 방 중앙의 x 좌표
     private int GetCenterX(RectInt size)
