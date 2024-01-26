@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEditor.PlayerSettings;
 
 public class MST : MonoBehaviour
 {
     public StartTriangulation startTriangulation; // StartTriangulation 스크립트 참조
-    public GameObject MSTHolder;
+    public Transform MSTHolder;
     [SerializeField] private GameObject linePrefab; // 라인 렌더러 프리팹
 
     // 크루스칼 알고리즘 실행 메서드
@@ -20,6 +21,16 @@ public class MST : MonoBehaviour
             Vector3 start = startTriangulation.points[edge.u].transform.position;
             Vector3 end = startTriangulation.points[edge.v].transform.position;
             CreateLine(start, end);
+        }
+    }
+
+    // 던전 초기화 메서드
+    public void ResetDungeon()
+    {      
+        // 라인 렌더러 객체들 파괴
+        foreach (Transform child in MSTHolder)
+        {
+            Destroy(child.gameObject);
         }
     }
 

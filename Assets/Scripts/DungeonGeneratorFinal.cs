@@ -59,6 +59,8 @@ public class DungeonGeneratorFinal : MonoBehaviour
                 OnDrawTile(x, y, map[x, y]);
             }
         }
+
+        startTriangulation.StartDelaunayTriangulation(); // 들로네 삼각분할 실행
     }
 
     // 던전 초기화 메서드
@@ -72,6 +74,8 @@ public class DungeonGeneratorFinal : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+
+        startTriangulation.ResetDungeon(); // 들로네 삼각분할 초기화
     }
 
     // 맵 생성

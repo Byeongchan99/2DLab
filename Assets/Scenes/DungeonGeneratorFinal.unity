@@ -170,9 +170,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: []
-  vertexHolder: {fileID: 1476126136}
+  vertexHolder: {fileID: 1476126137}
   linePrefab: {fileID: 870751597609099325, guid: 1d0d763dd039e28439b540641e69955a, type: 3}
-  edgeHoler: {fileID: 1151136180}
+  edgeHoler: {fileID: 1151136181}
   lines: []
   mstAlgorithms: {fileID: 9877101}
 --- !u!114 &9877100
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startTriangulation: {fileID: 9877099}
-  MSTHolder: {fileID: 1530324743}
+  MSTHolder: {fileID: 1530324744}
   linePrefab: {fileID: 870751597609099325, guid: b1610ba548af5ea45b5bac0d897823fb, type: 3}
 --- !u!1 &39141730
 GameObject:
@@ -631,18 +631,6 @@ MonoBehaviour:
       - m_Target: {fileID: 9877100}
         m_TargetAssemblyTypeName: DungeonGeneratorFinal, Assembly-CSharp
         m_MethodName: GenerateDungeon
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 9877099}
-        m_TargetAssemblyTypeName: StartTriangulation, Assembly-CSharp
-        m_MethodName: StartDelaunayTriangulation
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
