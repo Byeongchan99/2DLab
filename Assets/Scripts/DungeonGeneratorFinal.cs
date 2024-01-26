@@ -39,6 +39,8 @@ public class DungeonGeneratorFinal : MonoBehaviour
 
     public StartTriangulation startTriangulation;
 
+    public Transform MSTHolder;
+
     public void GenerateDungeon()
     {
         ResetDungeon(); // 던전 초기화 호출
@@ -51,6 +53,9 @@ public class DungeonGeneratorFinal : MonoBehaviour
         GenerateRoom(rootNode, 0); // 방 생성
         //ConnectRoad(rootNode, 0); // 길 연결
 
+        startTriangulation.StartDelaunayTriangulation(); // 들로네 삼각분할 실행
+        GenerateRoad(); // 통로 생성
+
         // BSP로 생성된 맵 확인
         for (int x = 0; x < mapSize.x; x++)
         {
@@ -58,9 +63,7 @@ public class DungeonGeneratorFinal : MonoBehaviour
             {
                 OnDrawTile(x, y, map[x, y]);
             }
-        }
-
-        startTriangulation.StartDelaunayTriangulation(); // 들로네 삼각분할 실행
+        }      
     }
 
     // 던전 초기화 메서드
@@ -151,6 +154,37 @@ public class DungeonGeneratorFinal : MonoBehaviour
         return treeNode.leftTree.roomSize; // 왼쪽 자식 트리의 방 크기 반환
     }
 
+    // 통로 생성 메서드
+    private void GenerateRoad()
+    {
+        // MST로 생성된 간선들을 순회하며 통로 생성
+        foreach (Transform child in MSTHolder)
+        {
+            LineRenderer lineRenderer = child.GetComponent<LineRenderer>();
+            Vector3 start = lineRenderer.GetPosition(0);
+            Vector3 end = lineRenderer.GetPosition(1);
+
+            Debug.Log(start + " " + end);
+
+            // 시작점에서 중간점까지의 경로 생성
+            for (int x = Mathf.RoundToInt(start.x); x != Mathf.RoundToInt(end.x); x += Mathf.RoundToInt(start.x) < Mathf.RoundToInt(end.x) ? 1 : -1)
+            {
+                Debug.Log(x + " " + Mathf.RoundToInt(start.y));
+                Debug.Log(x + mapSize.x / 2 + " " + Mathf.RoundToInt(start.y) + mapSize.y / 2);
+                map[x + mapSize.x / 2, Mathf.RoundToInt(start.y) + mapSize.y/ 2] = PERMARNANT_ROAD;
+            }
+
+            // 중간점에서 끝점까지의 경로 생성
+            for (int y = Mathf.RoundToInt(start.y); y != Mathf.RoundToInt(end.y); y += Mathf.RoundToInt(start.y) < Mathf.RoundToInt(end.y) ? 1 : -1)
+            {
+                Debug.Log(Mathf.RoundToInt(end.x) + " " + y);
+                Debug.Log(Mathf.RoundToInt(end.x) + mapSize.x / 2 + " " + y + mapSize.y / 2);
+                map[Mathf.RoundToInt(end.x) + mapSize.x / 2, y + mapSize.y / 2] = PERMARNANT_ROAD;
+            }
+        }
+    }
+
+    /*
     // 길 연결
     private void ConnectRoad(TreeNode treeNode, int n)
     {
@@ -168,6 +202,7 @@ public class DungeonGeneratorFinal : MonoBehaviour
         ConnectRoad(treeNode.leftTree, n + 1);
         ConnectRoad(treeNode.rightTree, n + 1);
     }
+    */
 
     // 라인 렌더러를 사용해 던전 분할선 생성
     private void OnDrawLine(Vector2 from, Vector2 to)

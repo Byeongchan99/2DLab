@@ -205,6 +205,7 @@ MonoBehaviour:
   wallTile: {fileID: 11400000, guid: 5852acbd5ab103d42aa9dd197f1ccbe9, type: 2}
   permarnantWallTile: {fileID: 11400000, guid: a61e571e807a5084ea2e339f34a19480, type: 2}
   startTriangulation: {fileID: 9877099}
+  MSTHolder: {fileID: 1530324744}
 --- !u!114 &9877101
 MonoBehaviour:
   m_ObjectHideFlags: 0
