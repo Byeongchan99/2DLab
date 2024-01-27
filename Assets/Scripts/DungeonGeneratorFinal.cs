@@ -177,7 +177,7 @@ public class DungeonGeneratorFinal : MonoBehaviour
             Vector3 start = lineRenderer.GetPosition(0);
             Vector3 end = lineRenderer.GetPosition(1);
 
-            // 시작점에서 끝점까지의 경로 생성
+            // 시작점에서 중간점까지의 경로 생성
             for (int x = Mathf.RoundToInt(start.x); x != Mathf.RoundToInt(end.x); x += Mathf.RoundToInt(start.x) < Mathf.RoundToInt(end.x) ? 1 : -1)
             {
                 int adjustedX = x + mapSize.x / 2;
