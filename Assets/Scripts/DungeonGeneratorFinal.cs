@@ -38,8 +38,10 @@ public class DungeonGeneratorFinal : MonoBehaviour
     [SerializeField] private Tile permarnantWallTile; // 영구적인 벽 타일
 
     public StartTriangulation startTriangulation;
-
     public Transform MSTHolder;
+
+    [SerializeField] private RuleTile roadRuleTile; // 통로 룰타일
+    [SerializeField] private RuleTile wallRuleTile; // 벽 룰타일
 
     // BSP 알고리즘으로 방 생성
     public void GenerateRoomWithBSP()
@@ -76,6 +78,17 @@ public class DungeonGeneratorFinal : MonoBehaviour
             for (int y = 0; y < mapSize.y; y++)
             {
                 OnDrawTile(x, y, map[x, y]);
+            }
+        }
+    }
+
+    public void DrawMap()
+    {
+        for (int x = 0; x < mapSize.x; x++)
+        {
+            for (int y = 0; y < mapSize.y; y++)
+            {
+                OnDrawRuleTile(x, y, map[x, y]);
             }
         }
     }
@@ -430,5 +443,15 @@ public class DungeonGeneratorFinal : MonoBehaviour
             tilemap.SetTile(pos, wallTile);
         else // 영구적인 벽
             tilemap.SetTile(pos, permarnantWallTile);
+    }
+
+    private void OnDrawRuleTile(int x, int y, int tileType)
+    {
+        Vector3Int pos = new Vector3Int(x - mapSize.x / 2, y - mapSize.y / 2, 0); // 중앙 정렬
+
+        if (tileType == ROAD || tileType == PERMARNANT_ROAD) // 통로
+            tilemap.SetTile(pos, roadRuleTile);        
+        else // 벽
+            tilemap.SetTile(pos, wallRuleTile);
     }
 }
