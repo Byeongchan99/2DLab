@@ -9,7 +9,14 @@ public class AutoTargetingSystem : MonoBehaviour
 
     void Update()
     {
-        AutoAimAtNearestTarget();
+        //AutoAimAtNearestTarget();
+        MoveAimPointToMousePosition(); // 마우스 포인터를 따라 조준점 이동
+    }
+
+    void MoveAimPointToMousePosition()
+    {
+        Vector3 mousePosition = Input.mousePosition;       
+        aimPoint.position = mousePosition; // RectTransform의 경우, 스크린 좌표계에서의 위치를 직접 할당
     }
 
     void AutoAimAtNearestTarget()

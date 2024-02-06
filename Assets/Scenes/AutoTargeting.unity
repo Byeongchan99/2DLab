@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aimPoint: {fileID: 170904105}
-  gameCamera: {fileID: 0}
+  gameCamera: {fileID: 1003013316}
 --- !u!4 &156235980
 Transform:
   m_ObjectHideFlags: 0
