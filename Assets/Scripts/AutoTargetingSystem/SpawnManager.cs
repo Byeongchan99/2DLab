@@ -26,6 +26,9 @@ public class SpawnManager : MonoBehaviour
         // 위치 설정
         target.transform.position = new Vector3(Random.Range(-8f, 8f), Random.Range(-3f, 4f), Random.Range(0f, 70f));
         AdjustScaleBasedOnZAxis(target); // Z축에 따라 스케일 조정
+        // z축에 따라 활동 범위 조절
+        RandomMoveTarget randomMoveTarget = target.GetComponent<RandomMoveTarget>();
+        randomMoveTarget.AdjustMovementRangeBasedOnZ(target.transform.position.z);
     }
 
     // Z축에 따라 스케일 조정

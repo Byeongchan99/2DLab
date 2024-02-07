@@ -154,6 +154,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aimPoint: {fileID: 170904105}
   gameCamera: {fileID: 1003013316}
+  autoMode: 0
+  smoothTime: 0.3
+  thresholdDistance: 80
+  constantSpeed: 950
 --- !u!4 &156235980
 Transform:
   m_ObjectHideFlags: 0
@@ -179,7 +183,7 @@ GameObject:
   m_Component:
   - component: {fileID: 164047425}
   - component: {fileID: 164047426}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 03_Forest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,7 +343,7 @@ GameObject:
   - component: {fileID: 198125355}
   - component: {fileID: 198125356}
   - component: {fileID: 198125357}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 04_Forest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1257,6 +1261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCamera: {fileID: 1003013316}
+  autoTargetingSystem: {fileID: 156235979}
 --- !u!1 &300891194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1268,7 +1273,7 @@ GameObject:
   - component: {fileID: 300891195}
   - component: {fileID: 300891196}
   - component: {fileID: 300891197}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 07_Forest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1895,7 +1900,7 @@ GameObject:
   m_Component:
   - component: {fileID: 566925162}
   - component: {fileID: 566925163}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 06_Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1979,7 +1984,7 @@ GameObject:
   m_Component:
   - component: {fileID: 606949396}
   - component: {fileID: 606949397}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 01_Sky
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2166,7 +2171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 829990550}
   - component: {fileID: 829990551}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 10_Mist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2459,7 +2464,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1157365949}
   - component: {fileID: 1157365950}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 09_Bushes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2544,7 +2549,7 @@ GameObject:
   - component: {fileID: 1160532873}
   - component: {fileID: 1160532874}
   - component: {fileID: 1160532875}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 05_Forest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3405,7 +3410,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1676394331}
   - component: {fileID: 1676394332}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 08_Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3557,7 +3562,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1894944283}
   - component: {fileID: 1894944284}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: 02_Forest
   m_TagString: Untagged
   m_Icon: {fileID: 0}

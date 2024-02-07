@@ -7,16 +7,19 @@ public class AutoTargetingSystem : MonoBehaviour
     public RectTransform aimPoint; // UI 조준점
     public Camera gameCamera;
     public bool autoMode = false; // 오토 모드 활성화 여부
+    [SerializeField] private float smoothTime; // SmoothDamp의 부드러운 이동을 위한 시간
+    [SerializeField] private float thresholdDistance; // SmoothDamp에서 일정 속도로 전환하는 임계 거리
+    [SerializeField] private float constantSpeed; // 일정한 속도로 타겟을 추적할 때의 속도
+
+    private Vector3 currentVelocity = Vector3.zero; // 현재 속도 (SmoothDamp에 필요)
 
     void Update()
     {
-        // A 버튼을 클릭하면 오토 모드 토글
         if (Input.GetKeyDown(KeyCode.A))
         {
             autoMode = !autoMode;
         }
 
-        // 오토 모드 상태에 따라 메소드 호출
         if (autoMode)
         {
             AutoAimAtNearestTarget();
@@ -29,8 +32,8 @@ public class AutoTargetingSystem : MonoBehaviour
 
     void MoveAimPointToMousePosition()
     {
-        Vector3 mousePosition = Input.mousePosition;       
-        aimPoint.position = mousePosition; // RectTransform의 경우, 스크린 좌표계에서의 위치를 직접 할당
+        Vector3 mousePosition = Input.mousePosition;
+        aimPoint.position = mousePosition;
     }
 
     void AutoAimAtNearestTarget()
@@ -42,8 +45,6 @@ public class AutoTargetingSystem : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             Vector3 screenPosition = gameCamera.WorldToScreenPoint(enemy.transform.position);
-
-            // 화면상에서의 거리 계산
             float distance = (screenPosition - new Vector3(Screen.width / 2, Screen.height / 2, 0)).magnitude;
 
             if (distance < nearestDistance)
@@ -55,9 +56,22 @@ public class AutoTargetingSystem : MonoBehaviour
 
         if (nearestEnemy != null)
         {
-            // 선택된 몬스터로 조준점 이동
             Vector3 targetScreenPosition = gameCamera.WorldToScreenPoint(nearestEnemy.position);
-            aimPoint.position = targetScreenPosition;
+            Vector3 targetPosition2D = new Vector3(targetScreenPosition.x, targetScreenPosition.y, 0);
+            Vector3 aimPointPosition2D = new Vector3(aimPoint.position.x, aimPoint.position.y, 0);
+
+            float distanceToTarget = Vector2.Distance(targetPosition2D, aimPointPosition2D);
+
+            if (distanceToTarget > thresholdDistance)
+            {
+                // 타겟과의 거리가 임계값보다 멀 때 SmoothDamp 사용
+                aimPoint.position = Vector3.SmoothDamp(aimPoint.position, targetPosition2D, ref currentVelocity, smoothTime);
+            }
+            else
+            {
+                // 타겟과 가까울 때는 일정한 속도로 이동
+                aimPoint.position = Vector3.MoveTowards(aimPoint.position, targetPosition2D, constantSpeed * Time.deltaTime);
+            }
         }
     }
 }
