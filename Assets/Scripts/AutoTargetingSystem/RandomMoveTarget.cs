@@ -17,7 +17,7 @@ public class RandomMoveTarget : MonoBehaviour
 
     void OnEnable()
     {
-        ChangeDirection();
+        ChangeDirection(false);
     }
 
     void Update()
@@ -33,24 +33,63 @@ public class RandomMoveTarget : MonoBehaviour
 
         float currentZ = transform.position.z;
 
-        // 화면 범위를 벗어나지 않도록 제한
-        transform.position = new Vector3(
-            Mathf.Clamp(transform.position.x, minX, maxX),
-            Mathf.Clamp(transform.position.y, minY, maxY),
-           currentZ);
+        // 활동 범위를 벗어나면 방향 즉시 변경
+        if (transform.position.x <= minX || transform.position.x >= maxX ||
+            transform.position.y <= minY || transform.position.y >= maxY)
+        {
+            ChangeDirection(true); // 벽에 닿았을 때 방향 변경
+        }
 
         // 방향 변경 타이머
         timer += Time.deltaTime;
         if (timer > changeDirectionTime)
         {
-            ChangeDirection();
+            ChangeDirection(false);
             timer = 0;
         }
     }
 
-    // 랜덤으로 움직이는 방향 결정
-    void ChangeDirection()
+    // Z축에 따른 활동 범위 조절
+    void AdjustMovementRangeBasedOnZ(int depth)
     {
+        switch (depth)
+        {
+            case 1:
+                minX = -8f;
+                maxX = 8f;
+                minY = -3f;
+                maxY = 4f;
+                break;
+            case 2:
+                minX = -8f;
+                maxX = 8f;
+                minY = -2.8f;
+                maxY = 4f;
+                break;
+            case 3:
+                minX = -8f;
+                maxX = 8f;
+                minY = -2.5f;
+                maxY = 4f;
+                break;
+            case 4:
+                minX = -8f;
+                maxX = 8f;
+                minY = -2f;
+                maxY = 4f;
+                break;
+        }
+    }
+
+    // 랜덤으로 움직이는 방향 결정
+    void ChangeDirection(bool changeDirection)
+    {
+        if (changeDirection)
+        {
+            moveDirection = -moveDirection; // 반대 방향으로 변경
+            return;
+        }
+
         int direction = Random.Range(0, 4); // 0: 위, 1: 아래, 2: 왼쪽, 3: 오른쪽
         switch (direction)
         {
