@@ -25,6 +25,30 @@ public class SpawnManager : MonoBehaviour
         GameObject target = ObjectPoolManager.Instance.GetTargetFromPool();
         // 위치 설정
         target.transform.position = new Vector3(Random.Range(-8f, 8f), Random.Range(-3f, 4f), Random.Range(0f, 70f));
+        AdjustScaleBasedOnZAxis(target); // Z축에 따라 스케일 조정
+    }
+
+    // Z축에 따라 스케일 조정
+    void AdjustScaleBasedOnZAxis(GameObject target)
+    {
+        float z = target.transform.position.z;
+
+        if (z > 0 && z < 30)
+        {
+            target.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+        }
+        else if (z > 30 && z < 50)
+        {
+            target.transform.localScale = new Vector3(0.4f, 0.4f, 1f);
+        }
+        else if (z > 50 && z < 60)
+        {
+            target.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
+        }
+        else if (z > 60 && z < 70)
+        {
+            target.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
+        }
     }
 
     // 활성화된 타겟이 존재하는지 체크

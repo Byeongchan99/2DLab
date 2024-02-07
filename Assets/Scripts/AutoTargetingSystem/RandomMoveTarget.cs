@@ -17,7 +17,6 @@ public class RandomMoveTarget : MonoBehaviour
 
     void OnEnable()
     {
-        AdjustScaleBasedOnZAxis();
         ChangeDirection();
     }
 
@@ -46,29 +45,6 @@ public class RandomMoveTarget : MonoBehaviour
         {
             ChangeDirection();
             timer = 0;
-        }
-    }
-
-    // Z축에 따라 스케일 조정
-    void AdjustScaleBasedOnZAxis()
-    {
-        float z = transform.position.z;
-
-        if (z >= 0 && z <= 30)
-        {
-            transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-        }
-        else if (z > 30 && z <= 50)
-        {
-            transform.localScale = new Vector3(0.4f, 0.4f, 1f);
-        }
-        else if (z > 50 && z <= 60)
-        {
-            transform.localScale = new Vector3(0.3f, 0.3f, 1f);
-        }
-        else if (z > 60 && z <= 70)
-        {
-            transform.localScale = new Vector3(0.2f, 0.2f, 1f);
         }
     }
 
