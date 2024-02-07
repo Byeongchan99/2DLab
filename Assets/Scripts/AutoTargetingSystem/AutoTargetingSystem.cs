@@ -6,11 +6,25 @@ public class AutoTargetingSystem : MonoBehaviour
 {
     public RectTransform aimPoint; // UI 조준점
     public Camera gameCamera;
+    public bool autoMode = false; // 오토 모드 활성화 여부
 
     void Update()
     {
-        //AutoAimAtNearestTarget();
-        MoveAimPointToMousePosition(); // 마우스 포인터를 따라 조준점 이동
+        // A 버튼을 클릭하면 오토 모드 토글
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            autoMode = !autoMode;
+        }
+
+        // 오토 모드 상태에 따라 메소드 호출
+        if (autoMode)
+        {
+            AutoAimAtNearestTarget();
+        }
+        else
+        {
+            MoveAimPointToMousePosition();
+        }
     }
 
     void MoveAimPointToMousePosition()
