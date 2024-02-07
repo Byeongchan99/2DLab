@@ -32,11 +32,13 @@ public class RandomMoveTarget : MonoBehaviour
         // 현재 위치 업데이트
         transform.position += moveDirection * moveSpeed * Time.deltaTime;
 
+        float currentZ = transform.position.z;
+
         // 화면 범위를 벗어나지 않도록 제한
         transform.position = new Vector3(
             Mathf.Clamp(transform.position.x, minX, maxX),
             Mathf.Clamp(transform.position.y, minY, maxY),
-            0);
+           currentZ);
 
         // 방향 변경 타이머
         timer += Time.deltaTime;

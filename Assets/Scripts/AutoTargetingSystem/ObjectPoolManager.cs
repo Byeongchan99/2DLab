@@ -44,6 +44,19 @@ public class ObjectPoolManager : MonoBehaviour
         return newObj;
     }
 
+    public List<GameObject> GetActiveTargets()
+    {
+        List<GameObject> activeTargets = new List<GameObject>();
+        foreach (GameObject obj in targetsPool)
+        {
+            if (obj.activeInHierarchy)
+            {
+                activeTargets.Add(obj);
+            }
+        }
+        return activeTargets;
+    }
+
     public void ReturnTargetToPool(GameObject target)
     {
         target.SetActive(false); // 오브젝트 비활성화
