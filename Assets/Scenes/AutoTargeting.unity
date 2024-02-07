@@ -1261,7 +1261,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCamera: {fileID: 1003013316}
+  aimPoint: {fileID: 170904105}
   autoTargetingSystem: {fileID: 156235979}
+  shootInterval: 1
+  originalSize: {x: 1, y: 1, z: 1}
+  reducedSize: {x: 0.5, y: 0.5, z: 1}
+  animationDuration: 0.1
 --- !u!1 &300891194
 GameObject:
   m_ObjectHideFlags: 0

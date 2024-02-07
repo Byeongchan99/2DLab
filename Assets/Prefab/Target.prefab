@@ -136,6 +136,9 @@ MonoBehaviour:
   moveSpeed: 3
   changeDirectionTime: 1
   health: 3
+  spriteRenderer: {fileID: 1644808059106548213}
+  blinkDuration: 0.5
+  blinkTimes: 3
   minX: -8
   maxX: 8
   minY: -3

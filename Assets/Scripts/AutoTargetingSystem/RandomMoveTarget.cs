@@ -11,6 +11,11 @@ public class RandomMoveTarget : MonoBehaviour
     private float timer; // 타이머
     public int health; // 체력
 
+    // 깜빡임 효과를 위한 변수
+    public SpriteRenderer spriteRenderer; // 오브젝트의 스프라이트 렌더러
+    public float blinkDuration = 0.5f; // 깜빡임 지속 시간
+    public int blinkTimes = 3; // 깜빡이는 횟수
+
     // 화면 범위
     [SerializeField]private float minX = -8f;
     [SerializeField] private float maxX = 8f;
@@ -20,16 +25,43 @@ public class RandomMoveTarget : MonoBehaviour
     void OnEnable()
     {
         health = 3;
+        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1);
         ChangeDirection(false);
     }
 
     void Update()
     {
         Move();
+    }
 
+    // 체력 감소 메서드 (예를 들어, 총에 맞았을 때 호출되는 메서드)
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        // 체력이 감소할 때 깜빡임 효과 시작
+        StartCoroutine(BlinkEffect());
+
+        // 체력이 0 이하면 오브젝트 풀로 반환
         if (health <= 0)
         {
             ObjectPoolManager.Instance.ReturnTargetToPool(gameObject);
+        }
+    }
+
+    IEnumerator BlinkEffect()
+    {
+        // 지정된 횟수만큼 깜빡임
+        for (int i = 0; i < blinkTimes; i++)
+        {
+            // 스프라이트를 투명하게 만듭니다.
+            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.5f);
+            // 짧은 대기 시간
+            yield return new WaitForSeconds(blinkDuration / (blinkTimes * 2));
+            // 스프라이트를 다시 불투명하게 만듭니다.
+            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1);
+            // 다시 대기
+            yield return new WaitForSeconds(blinkDuration / (blinkTimes * 2));
         }
     }
 
