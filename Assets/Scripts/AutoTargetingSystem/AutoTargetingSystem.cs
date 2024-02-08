@@ -30,12 +30,14 @@ public class AutoTargetingSystem : MonoBehaviour
         }
     }
 
+    // 마우스로 조준점 이동
     void MoveAimPointToMousePosition()
     {
         Vector3 mousePosition = Input.mousePosition;
         aimPoint.position = mousePosition;
     }
 
+    // 가장 가까운 타겟을 자동으로 조준
     void AutoAimAtNearestTarget()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");

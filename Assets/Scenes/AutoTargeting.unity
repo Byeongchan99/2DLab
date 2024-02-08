@@ -157,7 +157,7 @@ MonoBehaviour:
   autoMode: 0
   smoothTime: 0.3
   thresholdDistance: 80
-  constantSpeed: 950
+  constantSpeed: 850
 --- !u!4 &156235980
 Transform:
   m_ObjectHideFlags: 0
@@ -1263,10 +1263,6 @@ MonoBehaviour:
   gameCamera: {fileID: 1003013316}
   aimPoint: {fileID: 170904105}
   autoTargetingSystem: {fileID: 156235979}
-  shootInterval: 1
-  originalSize: {x: 1, y: 1, z: 1}
-  reducedSize: {x: 0.5, y: 0.5, z: 1}
-  animationDuration: 0.1
 --- !u!1 &300891194
 GameObject:
   m_ObjectHideFlags: 0
@@ -3693,8 +3689,8 @@ SceneRoots:
   - {fileID: 1003013317}
   - {fileID: 653868990}
   - {fileID: 1787923648}
-  - {fileID: 156235980}
   - {fileID: 1136145989}
+  - {fileID: 156235980}
   - {fileID: 1246532043}
   - {fileID: 851940993}
   - {fileID: 2086324163}
