@@ -6,8 +6,28 @@ namespace MVVM
 {
     public class PlayerModel
     {
-        // 플레이어 힘 스텟 프로퍼티
+        // 플레이어 스텟 프로퍼티
+        // 힘, 민첩, 지능, 운
         public int Strength
+        {
+            get;
+            set;
+        }
+
+        //
+        public int Dexterity
+        {
+            get;
+            set;
+        }
+
+        public int Intelligence
+        {
+            get;
+            set;
+        }
+
+        public int Luck
         {
             get;
             set;

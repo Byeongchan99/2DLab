@@ -23,6 +23,45 @@ namespace MVVM
             }
         }
 
+        public int Dexterity
+        {
+            get => playerModel.Dexterity;
+            set
+            {
+                if (playerModel.Dexterity != value)
+                {
+                    playerModel.Dexterity = value;
+                    OnPropertyChanged(nameof(Dexterity));
+                }
+            }
+        }
+
+        public int Intelligence
+        {
+            get => playerModel.Intelligence;
+            set
+            {
+                if (playerModel.Intelligence != value)
+                {
+                    playerModel.Intelligence = value;
+                    OnPropertyChanged(nameof(Intelligence));
+                }
+            }
+        }
+
+        public int Luck
+        {
+            get => playerModel.Luck;
+            set
+            {
+                if (playerModel.Luck != value)
+                {
+                    playerModel.Luck = value;
+                    OnPropertyChanged(nameof(Luck));
+                }
+            }
+        }
+
         // 속성 이름을 매개변수로 받아 해당 속성이 변경되었음을 구독자(보통 UI 컴포넌트)에게 알림
         protected void OnPropertyChanged(string propertyName)
         {
@@ -36,6 +75,21 @@ namespace MVVM
             Strength++;
         }
 
+        public void IncreaseDexterity()
+        {
+            Dexterity++;
+        }
+
+        public void IncreaseIntelligence()
+        {
+            Intelligence++;
+        }
+
+        public void IncreaseLuck()
+        {
+            Luck++;
+        }
+
         void Start()
         {
             // 게임 시작 시 플레이어 모델을 초기화하고 UI에 반영
@@ -45,6 +99,9 @@ namespace MVVM
         private void InitModel()
         {
             Strength = 0; // Strength 프로퍼티의 setter가 호출되고, OnPropertyChanged가 호출
+            Dexterity = 0;
+            Intelligence = 0;
+            Luck = 0;
         }
     }
 }
