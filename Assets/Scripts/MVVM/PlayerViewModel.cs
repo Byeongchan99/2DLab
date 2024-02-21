@@ -70,6 +70,7 @@ namespace MVVM
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        // 스텟을 증가시키는 메서드
         public void IncreaseStrength()
         {
             Strength++;
