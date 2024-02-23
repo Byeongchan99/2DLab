@@ -14,7 +14,6 @@ namespace MVVM
             set;
         }
 
-        //
         public int Dexterity
         {
             get;

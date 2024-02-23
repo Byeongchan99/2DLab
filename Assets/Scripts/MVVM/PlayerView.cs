@@ -15,19 +15,22 @@ namespace MVVM
 
         void Start()
         {
+            // ViewModel을 초기화하고 PropertyChanged 이벤트에 대한 리스너를 등록
             viewModel.PropertyChanged += ViewModel_PropertyChanged;
 
+            // 버튼 클릭 이벤트에 대한 리스너를 등록
             strengthButton.onClick.AddListener(viewModel.IncreaseStrength);
             dexterityButton.onClick.AddListener(viewModel.IncreaseDexterity);
             intelligenceButton.onClick.AddListener(viewModel.IncreaseIntelligence);
             luckButton.onClick.AddListener(viewModel.IncreaseLuck);
 
+            // UI 텍스트를 초기화
             InitText();
         }
 
         private void InitText()
         {
-            // viewModel의 현재 Strength 값을 UI에 반영
+            // viewModel의 현재 값들을 UI에 반영
             strengthText.text = viewModel.Strength.ToString();
             dexterityText.text = viewModel.Dexterity.ToString();
             intelligenceText.text = viewModel.Intelligence.ToString();
@@ -39,6 +42,8 @@ namespace MVVM
         // PropertyChangedEventArgs는 속성 변경 알림을 구독하는 리스너(예: UI 컨트롤)에게 어떤 속성이 변경되었는지 알려줌
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            Debug.Log("PlayerView의 ViewModel_PropertyChanged 실행");
+            Debug.Log("PlayerModel의 변경 사항이 PlayerView에 반영");
             // swith문을 사용하여 어떤 속성이 변경되었는지 확인
             switch (e.PropertyName)
             {

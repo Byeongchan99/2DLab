@@ -17,7 +17,10 @@ namespace MVVM
             {
                 if (playerModel.Strength != value)
                 {
+                    Debug.Log("Strength setter 실행");
                     playerModel.Strength = value;
+                    Debug.Log("PlayerModel의 값 업데이트");
+                    Debug.Log("Strength값 증가");
                     OnPropertyChanged(nameof(Strength));
                 }
             }
@@ -67,12 +70,16 @@ namespace MVVM
         {
             // PropertyChanged 이벤트가 null이 아닌 경우에만 이벤트를 발생시킴
             // Invoke는 대리자 또는 이벤트를 명시적으로 호출하는 데 사용
+            Debug.Log("PlayerViewModel에서 PlayerView에게 변경 사항 알림");
+            Debug.Log("OnPropertyChanged 실행");
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         // 스텟을 증가시키는 메서드
         public void IncreaseStrength()
         {
+            Debug.Log("PlayerViewModel에서 사용자의 입력 처리");
+            Debug.Log("IncreaseStrength 실행");
             Strength++;
         }
 
