@@ -14,8 +14,8 @@ namespace MVC
             Debug.Log("Model 업데이트");
             Debug.Log("Model에서 카운트 증가");
             Count++;
-            OnCountChanged?.Invoke(this, Count);
             Debug.Log("Model의 OnCountChanged가 실행되면 View의 UpdateCount가 실행");
+            OnCountChanged?.Invoke(this, Count);
         }
 
         public event Action<CounterModel, int> OnCountChanged;

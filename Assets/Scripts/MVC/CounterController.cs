@@ -20,8 +20,8 @@ namespace MVC
         {
             Debug.Log("Controller에서 사용자의 입력을 받음");
             Debug.Log("OnIncrementButtonClicked 실행");
-            model.IncrementCount();
             Debug.Log("Model에게 입력 전달");
+            model.IncrementCount();
         }
     }
 }

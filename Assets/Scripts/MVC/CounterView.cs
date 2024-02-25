@@ -17,6 +17,7 @@ namespace MVC
         public void UpdateCount(int count)
         {
             Debug.Log("Model의 변경사항을 View에 반영");
+            Debug.Log("UpdateCount 실행");
             countText.text = $"Count: {count}";
         }
     }
