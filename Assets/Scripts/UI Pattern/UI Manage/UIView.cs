@@ -18,8 +18,22 @@ namespace UIManage
             Disappeared
         }
 
-        /// <summary> UI 창의 상태 프로퍼티 </summary>
-        private VisibleState State { get; set; } = VisibleState.Disappeared;
+        // UIView의 원래 위치를 저장할 필드
+        private Vector2 _originalPosition;
+        // 초기 상태 설정
+        private VisibleState _state = VisibleState.Disappeared;
+        // RectTransform 컴포넌트에 대한 참조
+        private RectTransform _rectTransform;
+
+        /****************************************************************************
+                                 Unity Callbacks
+        ****************************************************************************/
+        /// <summary> 시작 시 UIView의 원래 위치 저장 </summary>
+        void Awake()
+        {
+            _rectTransform = GetComponent<RectTransform>();
+            _originalPosition = _rectTransform.anchoredPosition;
+        }
 
         /****************************************************************************
                                  public Methods
@@ -28,21 +42,21 @@ namespace UIManage
         public void Show()
         {
             gameObject.SetActive(true);
-            State = VisibleState.Appearing;
-            // DoTween 애니메이션을 사용하여 등장 애니메이션 구현
-            transform.DOScale(Vector3.one, 0.5f).OnComplete(() => State = VisibleState.Appeared);
+            _state = VisibleState.Appearing;
+            // 화면 중앙으로 이동
+            _rectTransform.DOAnchorPos(Vector2.zero, 0.5f).OnComplete(() => _state = VisibleState.Appeared);
         }
 
         /// <summary> UI 요소를 숨기는 메서드 </summary>
         public void Hide()
         {
-            State = VisibleState.Disappearing;
-            // 예: DoTween 애니메이션을 사용하여 사라짐 애니메이션 구현
-            transform.DOScale(Vector3.zero, 0.5f).OnComplete(() =>
+            _state = VisibleState.Disappearing;
+            // 원래 위치로 이동
+            _rectTransform.DOAnchorPos(_originalPosition, 0.5f).OnComplete(() =>
             {
-                State = VisibleState.Disappeared;
-                gameObject.SetActive(false);
+                _state = VisibleState.Disappeared;
             });
+            gameObject.SetActive(false);
         }
     }
 }
