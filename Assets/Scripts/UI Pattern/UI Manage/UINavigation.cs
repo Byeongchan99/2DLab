@@ -35,6 +35,8 @@ namespace UIManage
         {
             // 초기화
             Init();
+            // 메인화면
+            Push("View 1"); 
         }
 
         public void Update()
@@ -142,6 +144,33 @@ namespace UIManage
             {
                 Pop();
             }
+        }
+
+        /****************************************************************************
+                                 public Methods
+        ****************************************************************************/
+        /// <summary> 뒤로가기 버튼 클릭 메서드 </summary>
+        public void OnBackButtonClicked()
+        {
+            Pop();
+        }
+
+        /// <summary> 홈 버튼 클릭 메서드 </summary>
+        public void OnHomeButtonClicked()
+        {
+            PopToRoot();
+        }
+
+        /// <summary> 스테이지 선택창 버튼 클릭 메서드 </summary>
+        public void OnStageSelectButtonClicked()
+        {
+            Push("View 2");
+        }
+
+        /// <summary> 파티 편성창 버튼 클릭 메서드 </summary>
+        public void OnPartyOrganizeButtonClicked()
+        {
+            Push("View 3");
         }
     }
 }
