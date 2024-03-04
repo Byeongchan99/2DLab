@@ -10,6 +10,7 @@ namespace UIManage
         /****************************************************************************
                                          public Fields
         ****************************************************************************/
+        /// <summary> UI 스택 수 </summary>
         public Text stackCount;
 
         /****************************************************************************
@@ -53,12 +54,12 @@ namespace UIManage
             {
                 Push("View 3");
             }
-            // 숫자 키 0을 누르면 첫 번째 UIView가 나올 때까지 모두 Pop
+            // 숫자 키 0을 누르면 첫 번째 UIView가 나올 때까지 모두 Pop - 홈으로 가기
             else if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
             {
                 PopToRoot();
             }
-            // Esc 키를 누르면 현재 UIView를 숨기고 이전 UIView를 반환
+            // Esc 키를 누르면 현재 UIView를 숨기고 이전 UIView를 반환 - 뒤로가기
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Pop();
