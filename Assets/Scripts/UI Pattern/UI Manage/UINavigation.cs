@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UIManage
 {
     public class UINavigation : MonoBehaviour
     {
+        /****************************************************************************
+                                         public Fields
+        ****************************************************************************/
+        public Text stackCount;
+
         /****************************************************************************
                                          private Fields
         ****************************************************************************/
@@ -26,10 +32,8 @@ namespace UIManage
         ****************************************************************************/
         void Start()
         {
-            foreach (var view in _viewList)
-            {
-                RegisterView(view.gameObject.name, view);
-            }
+            // 초기화
+            Init();
         }
 
         public void Update()
@@ -49,11 +53,35 @@ namespace UIManage
             {
                 Push("View 3");
             }
+            // 숫자 키 0을 누르면 첫 번째 UIView가 나올 때까지 모두 Pop
+            else if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                PopToRoot();
+            }
+            // Esc 키를 누르면 현재 UIView를 숨기고 이전 UIView를 반환
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Pop();
+            }
+
+            // 스택 수 업데이트
+            stackCount.text =  "현재 스택 수: " + _viewStack.Count.ToString();
         }
 
         /****************************************************************************
                                          private Methods
         ****************************************************************************/
+        /// <summary> 초기화 </summary>
+        private void Init()
+        {
+            foreach (var view in _viewList)
+            {
+                RegisterView(view.gameObject.name, view);
+                view.gameObject.SetActive(false);
+            }
+        }
+
+
         /// <summary> UIView 인스턴스들을 등록하는 메서드 </summary>
         private void RegisterView(string name, UIView view)
         {
