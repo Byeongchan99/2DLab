@@ -634,8 +634,9 @@ GameObject:
   - component: {fileID: 621610101}
   - component: {fileID: 621610103}
   - component: {fileID: 621610102}
+  - component: {fileID: 621610104}
   m_Layer: 5
-  m_Name: Pop Up 1
+  m_Name: Popup 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -701,6 +702,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 621610100}
   m_CullTransparentMesh: 1
+--- !u!114 &621610104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621610100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef4ae78080c03b946976d23c021d079e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closeButton: {fileID: 798525555}
 --- !u!1 &649090892
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,7 +728,7 @@ GameObject:
   - component: {fileID: 649090894}
   - component: {fileID: 649090896}
   m_Layer: 5
-  m_Name: View 2
+  m_Name: Fullscreen 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1382,7 +1396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 915685601}
   m_Layer: 5
-  m_Name: Pop Up UI Container
+  m_Name: Popup UI Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1522,7 +1536,7 @@ GameObject:
   - component: {fileID: 941205261}
   - component: {fileID: 941205262}
   m_Layer: 5
-  m_Name: Full Screen UI Container
+  m_Name: Fullscreen UI Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1564,10 +1578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stackCount: {fileID: 466700118}
-  _viewList:
-  - {fileID: 948851391}
-  - {fileID: 649090896}
-  - {fileID: 1307837334}
+  _fullscreenList: []
 --- !u!1 &945431917
 GameObject:
   m_ObjectHideFlags: 0
@@ -1671,7 +1682,7 @@ GameObject:
   - component: {fileID: 948851389}
   - component: {fileID: 948851391}
   m_Layer: 5
-  m_Name: View 1
+  m_Name: Fullscreen 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1957,7 +1968,7 @@ GameObject:
   - component: {fileID: 1307837335}
   - component: {fileID: 1307837334}
   m_Layer: 5
-  m_Name: View 3
+  m_Name: Fullscreen 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

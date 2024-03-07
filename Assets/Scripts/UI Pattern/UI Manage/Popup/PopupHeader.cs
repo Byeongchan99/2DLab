@@ -5,11 +5,8 @@ using UnityEngine.EventSystems;
 
 namespace UIManage
 {
-    public class PopUpHeader : MonoBehaviour, IPointerDownHandler, IDragHandler
+    public class PopupHeader : MonoBehaviour, IPointerDownHandler, IDragHandler
     {
-        /****************************************************************************
-                                     private Fields
-        ****************************************************************************/
         [SerializeField] 
         private RectTransform _moveArea; // 드래그하여 이동할 팝업 UI
 
@@ -17,9 +14,6 @@ namespace UIManage
         private Vector2 _dragBeginMousePoint; // 드래그를 시작할 때의 마우스 위치
         private Vector2 _dragMouseOffset; // 드래그 동안 마우스가 움직인 상대적 위치
 
-        /****************************************************************************
-                                     public Methods
-        ****************************************************************************/
         /// <summary> 드래그 시작 </summary>
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
         {

@@ -5,11 +5,8 @@ using DG.Tweening;
 
 namespace UIManage
 {
-    public class UIView : MonoBehaviour
+    public class FullscreenUI : MonoBehaviour
     {
-        /****************************************************************************
-                                 private Fields
-        ****************************************************************************/
         private enum VisibleState
         {
             Appearing,
@@ -25,9 +22,6 @@ namespace UIManage
         // RectTransform 컴포넌트에 대한 참조
         private RectTransform _rectTransform;
 
-        /****************************************************************************
-                                 Unity Callbacks
-        ****************************************************************************/
         /// <summary> 시작 시 UIView의 원래 위치 저장 </summary>
         void Awake()
         {
@@ -35,9 +29,6 @@ namespace UIManage
             _originalPosition = _rectTransform.anchoredPosition;
         }
 
-        /****************************************************************************
-                                 public Methods
-        ****************************************************************************/
         /// <summary> UI 요소를 보여주는 메서드 </summary>
         public void Show()
         {
