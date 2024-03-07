@@ -31,7 +31,7 @@ namespace UIManage
         /****************************************************************************
                                          Unity Callbacks
         ****************************************************************************/
-        void Start()
+        private void Awake()
         {
             // 초기화
             Init();
@@ -39,7 +39,7 @@ namespace UIManage
             Push("Fullscreen 1"); 
         }
 
-        public void Update()
+        private void Update()
         {
             // 숫자 키 1을 누르면 Fullscreen 1을 보여줌
             if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))
@@ -77,16 +77,16 @@ namespace UIManage
         /// <summary> 초기화 </summary>
         private void Init()
         {
+            // 리스트의 FullscreenUI 인스턴스들을 딕셔너리에 등록 및 비활성화
             foreach (var fullscreen in _fullscreenList)
             {
-                RegisterView(fullscreen.gameObject.name, fullscreen);
+                RegisterUI(fullscreen.gameObject.name, fullscreen);
                 fullscreen.gameObject.SetActive(false);
             }
         }
 
-
-        /// <summary> FullscreenUI 인스턴스들을 등록하는 메서드 </summary>
-        private void RegisterView(string name, FullscreenUI fullscreen)
+        /// <summary> FullscreenUI 인스턴스들을 딕셔너리에 등록하는 메서드 </summary>
+        private void RegisterUI(string name, FullscreenUI fullscreen)
         {
             if (!_fullscreenDictionary.ContainsKey(name))
             {

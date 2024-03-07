@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace UIManage
 {
-    public class PopupHeader : MonoBehaviour, IPointerDownHandler, IDragHandler
+    public class PopupUIHeader : MonoBehaviour, IPointerDownHandler, IDragHandler
     {
         [SerializeField] 
         private RectTransform _moveArea; // 드래그하여 이동할 팝업 UI

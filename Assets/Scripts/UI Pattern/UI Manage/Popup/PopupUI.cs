@@ -5,14 +5,26 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PopupUI : MonoBehaviour, IPointerDownHandler
+namespace UIManage
 {
-    public Button closeButton;
-    public event Action OnFocus;
-
-    /// <summary> 팝업 UI를 마우스로 클릭할 때 </summary>
-    void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
+    public class PopupUI : MonoBehaviour, IPointerDownHandler
     {
-        OnFocus();
+        public Button closeButton;
+        // 클릭 시 팝업을 가장 위로 올리는 액션
+        public event Action OnFocus;
+
+        // 팝업이 열려있는지 여부를 나타내는 프로퍼티
+        public bool IsOpen { get; set; } = false;
+
+        // Focus를 사용할지 여부
+        [SerializeField]
+        private bool _useFocus = true;
+
+
+        /// <summary> 팝업 UI를 마우스로 클릭할 때 </summary>
+        void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
+        {
+            OnFocus();
+        }
     }
 }
