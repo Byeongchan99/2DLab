@@ -14,17 +14,24 @@ namespace UIManage
         public event Action OnFocus;
 
         // 팝업이 열려있는지 여부를 나타내는 프로퍼티
-        public bool IsOpen { get; set; } = false;
+        public bool isOpen { get; set; } = false;
 
         // Focus를 사용할지 여부
-        [SerializeField]
-        private bool _useFocus = true;
+        public bool useFocus;
 
+        /// <summary> OnFocus 이벤트를 외부에서 트리거할 수 있는 메서드 </summary>
+        public void TriggerOnFocus()
+        {
+            if (useFocus)
+            {
+                OnFocus?.Invoke();
+            }
+        }
 
         /// <summary> 팝업 UI를 마우스로 클릭할 때 </summary>
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
         {
-            OnFocus();
+            TriggerOnFocus();
         }
     }
 }

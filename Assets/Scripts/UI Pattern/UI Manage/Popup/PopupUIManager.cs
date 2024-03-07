@@ -98,7 +98,7 @@ namespace UIManage
             // 링크드 리스트에 추가하고
             _popupLinkedList.AddFirst(popup);
             // 활성화
-            popup.IsOpen = true;
+            popup.isOpen = true;
             popup.gameObject.SetActive(true);
             // 순서 업데이트
             UpdatePopupUIOrder();
@@ -110,7 +110,7 @@ namespace UIManage
             // 링크드 리스트에서 제거하고
             _popupLinkedList.Remove(popup);
             // 비활성화
-            popup.IsOpen = false;
+            popup.isOpen = false;
             popup.gameObject.SetActive(false);
             // 순서 업데이트
             UpdatePopupUIOrder();
@@ -119,7 +119,7 @@ namespace UIManage
         /// <summary> 단축키에 따라 팝업 토글 </summary>
         private void togglePopup(PopupUI popup)
         {
-            if (popup.IsOpen)
+            if (popup.isOpen)
             {
                 ClosePopup(popup);
             }
