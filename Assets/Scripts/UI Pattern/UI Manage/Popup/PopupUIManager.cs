@@ -104,6 +104,19 @@ namespace UIManage
             UpdatePopupUIOrder();
         }
 
+        /// <summary> 이름을 사용하여 팝업 열기 </summary>
+        public void OpenPopup(string UIName)
+        {
+            if (_popupDictionary.TryGetValue(UIName, out PopupUI popup))
+            {
+                OpenPopup(popup);
+            }
+            else
+            {
+                Debug.LogWarning($"Popup with name {UIName} not found.");
+            }
+        }
+
         /// <summary> 팝업 닫기 </summary>
         private void ClosePopup(PopupUI popup)
         {
@@ -115,7 +128,20 @@ namespace UIManage
             // 순서 업데이트
             UpdatePopupUIOrder();
         }
-         
+
+        /// <summary> 이름을 사용하여 팝업 닫기 </summary>
+        public void ClosePopup(string UIName)
+        {
+            if (_popupDictionary.TryGetValue(UIName, out PopupUI popup))
+            {
+                ClosePopup(popup);
+            }
+            else
+            {
+                Debug.LogWarning($"Popup with name {UIName} not found.");
+            }
+        }
+
         /// <summary> 단축키에 따라 팝업 토글 </summary>
         private void togglePopup(PopupUI popup)
         {
