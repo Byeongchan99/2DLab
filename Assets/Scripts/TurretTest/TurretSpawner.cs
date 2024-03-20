@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TurretTest
@@ -15,12 +16,14 @@ namespace TurretTest
         [SerializeField] private bool[] isAvailableSpawnPosition;
         /// <summary> 소환할 터렛 프리팹 리스트 </summary>
         [SerializeField] List<GameObject> turretPrefabs;
+        /// <summary> 터렛 종류별 소환 레벨 </summary>
+        [SerializeField] List<int> turretSpawnLevels;
         /// <summary> 터렛 종류별 소환 확률 </summary>
         [SerializeField] List<float> turretSpawnChances;
         /// <summary> 터렛 종류별 소환 쿨타임 </summary>
         [SerializeField] List<float> turretSpawnCooltimes;
         /// <summary> 터렛 스포너 관련 데이터 스크립터블 오브젝트 </summary>
-        // [SerializeField] TurretSpawnerData turretSpawnerData; // 나중에 추가하기
+        [SerializeField] TurretSpawnerData[] turretSpawnerScriptableObjects;
         private float nextSpawnTime = 0f;
         private bool isSpawning = false; // 현재 소환 중인지 여부를 나타내는 플래그
 
@@ -54,37 +57,116 @@ namespace TurretTest
         }
 
         /// <summary> 터렛 소환 확률 및 쿨타임 설정 </summary>
-        void SettingTurretSpawner(float time)
+        void SettingTurretSpawner(int eventIndex)
         {
-            // 스크립터블 오브젝트에서 시간대에 따른 터렛 소환 확률 및 쿨타임 정보를 가져와서 설정
+            // 스크립터블 오브젝트에서 초기 터렛 소환 레벨 및 쿨타임 정보를 가져와서 설정
+            SettingTurretSpawnLevel();
             SettingTurretSpawnChances();
             SettingTurretSpawnCooltimes();
         }
 
-        /// <summary> 터렛 종류 선택 확률 변경 </summary>
-        void SettingTurretSpawnChances(params float[] chances)
+        void LoadTurretSpawnerSettings(TurretSpawnerData turretSpawnerData)
         {
-            /*
-            for (int i = 0; i < chances.Length; i++)
+            // 각 터렛 데이터에 대해 반복
+            for (int i = 0; i < turretSpawnerData.turretDatas.Count; i++)
             {
-                turretSpawnChances[i] = chances[i];
+                // 레벨과 쿨타임 비율 데이터 적용
+                if (i < turretSpawnLevels.Count && i < turretSpawnCooltimes.Count)
+                {
+                    turretSpawnLevels[i] = turretSpawnerData.turretDatas[i].spawnLevel;
+                    turretSpawnCooltimes[i] *= turretSpawnerData.turretDatas[i].spawnCooldownPercent;
+                }
             }
-            */
+        }
 
-            turretSpawnChances = new List<float>(chances);
+        /// <summary> 터렛 종류별 소환 레벨 변경 </summary>
+        /// <param name="levels"> 포탑 소환 레벨을 조정할 값 배열 </param>
+        void SettingTurretSpawnLevel(params int[] levels)
+        {
+            // 포탑 소환 레벨을 조정할 값 배열의 길이와 포탑 소환 레벨 배열의 길이가 일치하는지 확인
+            if (levels.Length != turretSpawnLevels.Count)
+            {
+                Debug.LogError("포탑 소환 레벨을 조정할 값 배열의 길이와 포탑 소환 레벨 배열의 길이가 다름");
+                return;
+            }
+
+            // 터렛 레벨 변경
+            for (int i = 0; i < levels.Length; i++)
+            {
+                turretSpawnLevels[i] += levels[i];
+            }
+        }
+
+        /// <summary> 터렛 종류별 선택 확률 변경 </summary>
+        /// <param name="levels"> 각 터렛의 레벨 배열 </param>
+        void SettingTurretSpawnChances(params int[] levels)
+        {
+            // 각 터렛의 레벨 배열의 길이와 터렛 소환 확률 배열의 길이가 일치하는지 확인
+            if (levels.Length != turretSpawnChances.Count)
+            {
+                Debug.LogError("각 터렛의 레벨 배열의 길이와 터렛 소환 확률 배열의 길이가 다름");
+                return;
+            }
+
+            // 레벨 합계 계산
+            int levelSum = 0;
+            for (int i = 0; i < levels.Length; i++)
+            {
+                levelSum += levels[i];
+            }
+
+            // 레벨 합계가 0인 경우, 모든 확률을 동일하게 설정하여 에러 방지
+            if (levelSum == 0)
+            {
+                Debug.LogError("레벨 합계가 0. 모든 확률 동일하게 설정");
+                float equalChance = 100f / levels.Length;
+                for (int i = 0; i < levels.Length; i++)
+                {
+                    turretSpawnChances[i] = equalChance;
+                }
+                return;
+            }
+
+            // 각 터렛의 소환 확률 계산
+            float chancePerLevel = 100f / levelSum;
+            float totalPercentage = 0f; // 검증을 위한 총 확률 합계 계산
+            for (int i = 0; i < levels.Length; i++)
+            {
+                turretSpawnChances[i] = chancePerLevel * levels[i];
+                totalPercentage += turretSpawnChances[i];
+            }
+
+            // 확률의 총합이 100%에 가까운지 확인 (부동소수점 연산으로 인한 작은 오차 허용)
+            if (Mathf.Abs(100f - totalPercentage) > 0.01f)
+            {
+                Debug.LogWarning($"확률 총합이 100%가 아님. 총합: {totalPercentage}%");
+            }
         }
 
         /// <summary> 터렛 종류별 소환 쿨타임 변경 </summary>
-        void SettingTurretSpawnCooltimes(params float[] cooltimes)
+        /// <param name="cooltimePercents"> 쿨타임을 조정할 퍼센트 값 배열 </param>
+        void SettingTurretSpawnCooltimes(params float[] cooltimePercents)
         {
-            /*
-            for (int i = 0; i < cooltimes.Length; i++)
+            // 쿨타임을 조정할 퍼센트 값 배열의 길이가 터렛 소환 쿨타임 배열의 길이와 일치하는지 확인
+            if (cooltimePercents.Length != turretSpawnCooltimes.Count)
             {
-                turretSpawnCooltimes[i] = cooltimes[i];
+                Debug.LogError("쿨타임을 조정할 퍼센트 값 배열의 길이와 터렛 소환 쿨타임 배열의 길이가 다름");
+                return;
             }
-            */
 
-            turretSpawnCooltimes = new List<float>(cooltimes);
+            // 터렛 쿨타임 변경
+            for (int i = 0; i < cooltimePercents.Length; i++)
+            {
+                // 입력된 비율 값이 음수인지 확인
+                if (cooltimePercents[i] < 0)
+                {
+                    Debug.LogWarning($"{i}번째 터렛 쿨타임 비율이 음수라서 값 무시");
+                    continue;
+                }
+
+                // 쿨타임에 비율 적용
+                turretSpawnCooltimes[i] *= cooltimePercents[i];
+            }
         }
 
         /// <summary> 터렛 소환 코루틴 </summary>
@@ -124,6 +206,7 @@ namespace TurretTest
         {
             float randomChance = Random.value; // 0과 1 사이의 랜덤한 값
             float currentChance = 0f;
+
             for (int i = 0; i < turretPrefabs.Count; i++)
             {
                 currentChance += turretSpawnChances[i]; // 누적 확률 업데이트
