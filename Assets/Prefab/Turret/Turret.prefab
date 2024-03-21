@@ -183,6 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1908fec314a6baa4d8084b1f874f5d16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawner: {fileID: 0}
   lifeTime: 5
   projectileCount: 5
   spawnPointIndex: 0
@@ -190,6 +191,7 @@ MonoBehaviour:
   targetPosition: {fileID: 0}
   projectilePrefabs:
   - {fileID: 1364490355542663620, guid: 4ec30eafb771eba4380a76c3fea7fe56, type: 3}
+  - {fileID: 1364490355542663620, guid: bf31023d6fa52a84bb09f86a80f97207, type: 3}
   rotatePoint: {fileID: 5189703175745295079}
 --- !u!1 &5866501754651022631
 GameObject:

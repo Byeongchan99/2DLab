@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileDecorator : BaseProjectile
+public class ProjectileDecorator : Bullet
 {
-    public float splitTime = 2.0f;
-    public GameObject projectilePrefab;
+    [SerializeField] float splitTime = 1f;
+    [SerializeField] GameObject projectilePrefab;
 
     protected override void Start()
     {
@@ -17,9 +17,11 @@ public class ProjectileDecorator : BaseProjectile
     {
         yield return new WaitForSeconds(splitTime);
 
-        Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        Instantiate(projectilePrefab, transform.position, Quaternion.Euler(0, 0, 45));
-        Instantiate(projectilePrefab, transform.position, Quaternion.Euler(0, 0, -45));
+        // 현재 총알의 방향을 기준으로 분열
+        Quaternion currentRotation = transform.rotation;
+        Instantiate(projectilePrefab, transform.position, currentRotation * Quaternion.Euler(0, 0, 45));
+        Instantiate(projectilePrefab, transform.position, currentRotation);
+        Instantiate(projectilePrefab, transform.position, currentRotation * Quaternion.Euler(0, 0, -45));
 
         DestroyProjectile();
     }

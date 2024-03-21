@@ -51,7 +51,7 @@ public abstract class BaseTurret : MonoBehaviour
     protected virtual void InitTurret()
     {
         attackSpeed = lifeTime / projectileCount;
-        currentProjectilePrefabs = projectilePrefabs[0];
+        currentProjectilePrefabs = projectilePrefabs[1];
         targetPosition = PlayerStat.Instance.transform;
     }
 
