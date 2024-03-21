@@ -23,6 +23,8 @@ namespace TurretTest
         /// <summary> 터렛 종류별 소환 쿨타임 </summary>
         [SerializeField] List<float> turretSpawnCooltimes;
 
+        /// <summary> 터렛들을 담을 부모 오브젝트 </summary>
+        [SerializeField]  GameObject turretsParent;
         /// <summary> 스크립터블 오브젝트에서 로드한 터렛 소환 데이터 </summary>
         [SerializeField]  TurretSpawnerData currentEventData;
         [SerializeField]  List<int> eventSpawnLevels = new List<int>();
@@ -198,11 +200,27 @@ namespace TurretTest
             // 터렛 종류 선택
             GameObject turretToSpawn = ChooseTurretType();
             // 터렛 위치 선택
-            Transform spawnPosition = ChooseSpawnPosition();
+            int spawnPositionIndex = ChooseSpawnPosition();
+            if (spawnPositionIndex == -1) return; // 사용 가능한 위치가 없는 경우 소환하지 않음
 
-            if (turretToSpawn != null && spawnPosition != null)
+            Transform spawnPosition = spawnPositions[spawnPositionIndex];
+
+            if (turretToSpawn != null)
             {
-                Instantiate(turretToSpawn, spawnPosition.position, Quaternion.identity);
+                // 터렛 소환
+                GameObject spawnedTurret = Instantiate(turretToSpawn, spawnPosition.position, Quaternion.identity, turretsParent.transform);
+                // 소환된 터렛에서 BaseTurret 컴포넌트 찾기
+                BaseTurret turretComponent = spawnedTurret.GetComponent<BaseTurret>();
+                if (turretComponent != null)
+                {
+                    // spawnPoint 설정
+                    turretComponent.spawnPointIndex = spawnPositionIndex;
+                    turretComponent.spawner = this;
+                }
+                else
+                {
+                    Debug.LogError("터렛에 BaseTurret 컴포넌트가 없음");
+                }
                 nextSpawnTime = ChooseCooldown(turretToSpawn); // 다음 소환까지의 시간 설정
             }
         }
@@ -225,7 +243,7 @@ namespace TurretTest
         }
 
         /// <summary> 소환 위치 선택 </summary>
-        Transform ChooseSpawnPosition()
+        int ChooseSpawnPosition()
         {
             List<int> availableSpawnPositions = new List<int>();
 
@@ -239,13 +257,14 @@ namespace TurretTest
             }
 
             // 사용 가능한 위치가 없는 경우 null 반환
-            if (availableSpawnPositions.Count == 0) return null;
+            if (availableSpawnPositions.Count == 0) return -1;
 
             // 사용 가능한 위치 중에서 랜덤하게 하나 선택
             int selectedIndex = availableSpawnPositions[Random.Range(0, availableSpawnPositions.Count)];
-            isAvailableSpawnPosition[selectedIndex] = false; // 선택된 위치를 사용 불가능 상태로 변경
+            // 선택된 위치를 사용 불가능 상태로 변경
+            isAvailableSpawnPosition[selectedIndex] = false;
 
-            return spawnPositions[selectedIndex];
+            return selectedIndex;
         }
 
         /// <summary> 소환한 터렛의 쿨타임 반환 </summary>
