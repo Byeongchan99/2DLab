@@ -980,6 +980,11 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  turretInitialSpawnCooltimes:
+  - 3
+  - 3
+  - 3
+  - 3
   turretSpawnCooltimes:
   - 3
   - 3

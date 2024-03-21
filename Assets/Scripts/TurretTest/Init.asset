@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turretDatas:
   - spawnLevel: 1
-    spawnCooldownPercent: 1
+    spawnCooldownPercent: 0
   - spawnLevel: 1
-    spawnCooldownPercent: 1
+    spawnCooldownPercent: 0
   - spawnLevel: 1
-    spawnCooldownPercent: 1
+    spawnCooldownPercent: 0
   - spawnLevel: 1
-    spawnCooldownPercent: 1
+    spawnCooldownPercent: 0

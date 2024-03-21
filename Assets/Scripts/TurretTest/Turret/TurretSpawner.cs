@@ -20,6 +20,8 @@ namespace TurretTest
         [SerializeField] List<int> turretSpawnLevels;
         /// <summary> 터렛 종류별 소환 확률 </summary>
         [SerializeField] List<float> turretSpawnChances;
+        /// <summary> 터렛 종류별 초기 소환 쿨타임 </summary>
+        [SerializeField] List<float> turretInitialSpawnCooltimes;
         /// <summary> 터렛 종류별 소환 쿨타임 </summary>
         [SerializeField] List<float> turretSpawnCooltimes;
 
@@ -61,6 +63,13 @@ namespace TurretTest
 
             // 이벤트 이름에 따른 스크립터블 오브젝트 데이터 로드
             currentEventData = TurretSpawnerDataFactory.Instance.GetSpawnerDataForEvent("Init");
+
+            // 터렛 종류별 초기 소환 쿨타임 적용
+            for (int i = 0; i < turretInitialSpawnCooltimes.Count; i++)
+            {
+                turretSpawnCooltimes[i] = turretInitialSpawnCooltimes[i];
+            }
+
             // 터렛 종류별 데이터 초기화
             SettingTurretSpawnerDatas(currentEventData);
         }
@@ -168,12 +177,13 @@ namespace TurretTest
                 // 입력된 비율 값이 음수인지 확인
                 if (cooltimePercents[i] < 0)
                 {
-                    Debug.LogWarning($"{i}번째 터렛 쿨타임 비율이 음수라서 값 무시");
-                    continue;
+                    Debug.LogWarning($"{i}번째 터렛 쿨타임 비율이 음수이면 쿨타임 증가");
                 }
+                // 초기 쿨타임의 비율만큼 쿨타임 감소
+                float value = turretInitialSpawnCooltimes[i] * cooltimePercents[i];
 
                 // 쿨타임에 비율 적용
-                turretSpawnCooltimes[i] *= cooltimePercents[i];
+                turretSpawnCooltimes[i] -= value;
             }
         }
 
