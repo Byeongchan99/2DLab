@@ -26,7 +26,7 @@ public class BaseProjectile : MonoBehaviour
 
     protected virtual void Move()
     {
-        rb.velocity = transform.up * speed;
+        rb.velocity = transform.right * speed;
     }
 
     protected void CheckOutOfBounds()

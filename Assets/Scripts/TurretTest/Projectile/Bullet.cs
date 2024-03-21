@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChildProjectile : BaseProjectile
+public class Bullet : BaseProjectile
 {
     protected override void Move()
     {
