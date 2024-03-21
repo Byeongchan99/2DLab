@@ -34,10 +34,4 @@ public class BulletTurret : BaseTurret
         // 플레이어의 위치를 향해 투사체 생성
         Instantiate(currentProjectilePrefabs, firePoint.position, firePoint.rotation);
     }
-
-    // 발사할 투사체를 교체
-    public void ChangeProjectile(int projectileIndex)
-    {
-        currentProjectilePrefabs = projectilePrefabs[projectileIndex];
-    }
 }

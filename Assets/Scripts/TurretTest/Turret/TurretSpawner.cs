@@ -35,6 +35,8 @@ namespace TurretTest
         private float nextSpawnTime = 0f;
         private bool isSpawning = false; // 현재 소환 중인지 여부를 나타내는 플래그
 
+        private bool isBulletSplitActive = false; // 분열 총알 활성화 여부
+
         /****************************************************************************
                                        Unity Callbacks
         ****************************************************************************/
@@ -43,9 +45,21 @@ namespace TurretTest
             Init();
         }
 
+        void OnEnable()
+        {
+            // 분열 총알 이벤트 리스너 등록
+            EventManager.StartListening("BulletSplit", (enhancement) => isBulletSplitActive = true);
+        }
+
         void Start()
         {        
             StartCoroutine(SpawnTurretRoutine());
+        }
+
+        void OnDisable()
+        {
+            // 분열 총알 이벤트 리스너 제거
+            EventManager.StopListening("BulletSplit", (enhancement) => isBulletSplitActive = false);
         }
 
         /****************************************************************************
@@ -71,6 +85,34 @@ namespace TurretTest
             }
 
             // 터렛 종류별 데이터 초기화
+            SettingTurretSpawnerDatas(currentEventData);
+        }
+
+        /// <summary> 이벤트 적용 </summary>
+        void HandleEnhancement(TurretEnhancement enhancement)
+        {
+            switch (enhancement.enhancementType)
+            {
+                case TurretEnhancement.EnhancementType.BulletSplit:
+                    Debug.Log("분열 총알 이벤트 발생");
+                    // 분열 총알 로직 처리
+                    isBulletSplitActive = true;
+                    break;
+                case TurretEnhancement.EnhancementType.CountIncrease:
+                    // 총알 개수 증가 로직 처리
+                    break;
+                case TurretEnhancement.EnhancementType.SpeedIncrease:
+                    // 발사 속도 증가 로직 처리
+                    break;
+            }
+        }
+
+        /// <summary> 이벤트에 따른 터렛 소환 데이터 조정 </summary>
+        /// <param name="eventName"> 적용할 이벤트 이름 </param>
+        void AdjustEvent(string eventName)
+        {
+            // 이벤트 이름에 따른 스크립터블 오브젝트 데이터 로드
+            currentEventData = TurretSpawnerDataFactory.Instance.GetSpawnerDataForEvent(eventName);
             SettingTurretSpawnerDatas(currentEventData);
         }
 
@@ -226,6 +268,13 @@ namespace TurretTest
                     // spawnPoint 설정
                     turretComponent.spawnPointIndex = spawnPositionIndex;
                     turretComponent.spawner = this;
+
+                    // 분열 총알 이벤트가 활성화된 경우
+                    if (isBulletSplitActive && turretComponent is BulletTurret bulletTurret)
+                    {
+                        Debug.Log("분열 총알 적용");
+                        bulletTurret.ChangeProjectile(1); // 분열 총알 프리팹 적용
+                    }
                 }
                 else
                 {

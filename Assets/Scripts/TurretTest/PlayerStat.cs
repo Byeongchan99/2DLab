@@ -18,4 +18,14 @@ public class PlayerStat : MonoBehaviour
             Destroy(gameObject); // 중복 인스턴스 제거
         }
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("스페이스바 입력");
+            TurretEnhancement enhancement = new TurretEnhancement { enhancementType = TurretEnhancement.EnhancementType.BulletSplit};
+            EventManager.TriggerEnhancementEvent("BulletSplit", enhancement);
+        }
+    }
 }

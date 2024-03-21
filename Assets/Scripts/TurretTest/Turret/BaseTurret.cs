@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TurretTest;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ public abstract class BaseTurret : MonoBehaviour
     public GameObject[] projectilePrefabs; // 발사할 투사체 프리팹 리스트
     protected GameObject currentProjectilePrefabs; // 현재 발사할 투사체 프리팹
 
-    void Start()
+    void Awake()
     {
         InitTurret();
     }
@@ -51,21 +52,28 @@ public abstract class BaseTurret : MonoBehaviour
     protected virtual void InitTurret()
     {
         attackSpeed = lifeTime / projectileCount;
-        currentProjectilePrefabs = projectilePrefabs[1];
+        currentProjectilePrefabs = projectilePrefabs[0];
         targetPosition = PlayerStat.Instance.transform;
     }
 
     protected abstract void Shoot();
 
+    // 터렛 비활성화
     protected void DisableTurret()
     {
-        // 터렛 비활성화
         gameObject.SetActive(false);
         // 소환 위치 반환
         if (spawner != null)
         {
             spawner.SetPositionAvailable(spawnPointIndex);
         }
+    }
+
+    // 발사할 투사체를 교체
+    public virtual void ChangeProjectile(int projectileIndex)
+    {
+        Debug.Log("ChangeProjectile");
+        currentProjectilePrefabs = projectilePrefabs[projectileIndex];
     }
 
     public abstract void RotateTurret(); // 터렛의 포를 회전하는 메서드
