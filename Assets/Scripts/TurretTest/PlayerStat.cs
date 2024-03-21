@@ -24,10 +24,10 @@ public class PlayerStat : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("스페이스바 입력");
-            TurretEnhancement bulletTurretSplit = new TurretEnhancement
+            TurretUpgrade bulletTurretSplit = new TurretUpgrade
             {
-                turretType = TurretEnhancement.TurretType.Bullet,
-                enhancementType = TurretEnhancement.EnhancementType.BulletSplit,
+                turretType = TurretUpgrade.TurretType.Bullet,
+                enhancementType = TurretUpgrade.EnhancementType.ProjectileSplit,
             };
 
             EventManager.TriggerEnhancementEvent("TurretUpgrade", bulletTurretSplit);

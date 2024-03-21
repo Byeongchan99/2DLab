@@ -87,73 +87,73 @@ namespace TurretTest
         }
 
         /// <summary> 이벤트 적용 </summary>
-        private void HandleTurretUpgradeEvent(TurretEnhancement enhancement)
+        private void HandleTurretUpgradeEvent(TurretUpgrade enhancement)
         {
             switch (enhancement.turretType)
             {
-                case TurretEnhancement.TurretType.Bullet:
+                case TurretUpgrade.TurretType.Bullet:
                     // Bullet Turret의 업그레이드 처리를 위한 내부 switch 문
                     switch (enhancement.enhancementType)
                     {
-                        case TurretEnhancement.EnhancementType.BulletSplit:
+                        case TurretUpgrade.EnhancementType.ProjectileSplit:
                             // Bullet Turret 분열 총알 업그레이드 처리
                             isBulletSplitActive = true;
                             break;
-                        case TurretEnhancement.EnhancementType.CountIncrease:
+                        case TurretUpgrade.EnhancementType.CountIncrease:
                             // 개수 증가 처리
                             break;
-                        case TurretEnhancement.EnhancementType.SpeedIncrease:
+                        case TurretUpgrade.EnhancementType.SpeedIncrease:
                             // 속도 증가 처리
                             break;
                             // 기타 필요한 경우 추가
                     }
                     break;
-                case TurretEnhancement.TurretType.Laser:
+                case TurretUpgrade.TurretType.Laser:
                     // Laser Turret의 업그레이드 처리
                     switch (enhancement.enhancementType)
                     {
-                        case TurretEnhancement.EnhancementType.RemainTimeIncrease:
+                        case TurretUpgrade.EnhancementType.RemainTimeIncrease:
                             // Bullet Turret 분열 총알 업그레이드 처리
                             isBulletSplitActive = true;
                             break;
-                        case TurretEnhancement.EnhancementType.CountIncrease:
+                        case TurretUpgrade.EnhancementType.CountIncrease:
                             // 개수 증가 처리
                             break;
-                        case TurretEnhancement.EnhancementType.SpeedIncrease:
+                        case TurretUpgrade.EnhancementType.SpeedIncrease:
                             // 속도 증가 처리
                             break;
                             // 기타 필요한 경우 추가
                     }
                     break;
-                case TurretEnhancement.TurretType.Rocket:
+                case TurretUpgrade.TurretType.Rocket:
                     // Rocket Turret의 업그레이드 처리
                     switch (enhancement.enhancementType)
                     {
-                        case TurretEnhancement.EnhancementType.InductionUpgrade:
+                        case TurretUpgrade.EnhancementType.InductionUpgrade:
                             // Bullet Turret 분열 총알 업그레이드 처리
                             isBulletSplitActive = true;
                             break;
-                        case TurretEnhancement.EnhancementType.CountIncrease:
+                        case TurretUpgrade.EnhancementType.CountIncrease:
                             // 개수 증가 처리
                             break;
-                        case TurretEnhancement.EnhancementType.SpeedIncrease:
+                        case TurretUpgrade.EnhancementType.SpeedIncrease:
                             // 속도 증가 처리
                             break;
                             // 기타 필요한 경우 추가
                     }
                     break;
-                case TurretEnhancement.TurretType.Mortar:
+                case TurretUpgrade.TurretType.Mortar:
                     // Mortar Turret의 업그레이드 처리
                     switch (enhancement.enhancementType)
                     {
-                        case TurretEnhancement.EnhancementType.BulletSplit:
+                        case TurretUpgrade.EnhancementType.ProjectileSplit:
                             // Bullet Turret 분열 총알 업그레이드 처리
                             isBulletSplitActive = true;
                             break;
-                        case TurretEnhancement.EnhancementType.CountIncrease:
+                        case TurretUpgrade.EnhancementType.CountIncrease:
                             // 개수 증가 처리
                             break;
-                        case TurretEnhancement.EnhancementType.SpeedIncrease:
+                        case TurretUpgrade.EnhancementType.SpeedIncrease:
                             // 속도 증가 처리
                             break;
                             // 기타 필요한 경우 추가

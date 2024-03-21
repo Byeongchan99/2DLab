@@ -1,12 +1,12 @@
 [System.Serializable]
-public class TurretEnhancement
+public class TurretUpgrade
 {
     public enum TurretType { Bullet, Laser, Rocket, Mortar }
     public TurretType turretType;
 
     public enum EnhancementType
     {
-        CountIncrease, SpeedIncrease, BulletSplit, RemainTimeIncrease, InductionUpgrade
+        CountIncrease, SpeedIncrease, ProjectileSplit, RemainTimeIncrease, InductionUpgrade
     }
     public EnhancementType enhancementType;
 }
