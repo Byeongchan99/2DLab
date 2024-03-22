@@ -6,13 +6,19 @@ namespace TurretTest
 {
     public class BaseProjectile : MonoBehaviour
     {
+        protected Rigidbody2D rb;
+
         public float speed = 5.0f;
-        private Rigidbody2D rb;
+        public Vector2 moveDirection;
 
         /// <summary> 초기화 </summary>
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+        }
+
+        protected virtual void Start()
+        {
             Move();
         }
 
@@ -25,20 +31,19 @@ namespace TurretTest
         public void ChangeSpeed(float newSpeed)
         {
             speed = newSpeed;
-            Move();
         }
 
         /// <summary> 이동 </summary>
         protected virtual void Move()
         {
-            rb.velocity = transform.right * speed;
+            rb.velocity = moveDirection * speed;
         }
 
         /// <summary> 이벤트 리스너 추가 </summary>
         protected void CheckOutOfBounds()
         {
             // 원점으로부터 20 이상 떨어지면 삭제
-            if (transform.position.magnitude > 20.0f)
+            if (transform.position.magnitude > 30.0f)
             {
                 DestroyProjectile();
             }

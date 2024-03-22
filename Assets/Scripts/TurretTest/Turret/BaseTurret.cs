@@ -15,10 +15,9 @@ namespace TurretTest
         protected float attackSpeed;
         /// <summary> 마지막 발사 이후 경과 시간 </summary>
         protected float timeSinceLastShot = 0f;
-        /// <summary> 소환 위치 인덱스 </summary>
-        [SerializeField] protected int spawnPointIndex;
+
         /// <summary> 투사체가 발사되는 위치(투사체가 생성되는 위치) </summary>
-        protected Transform firePoint;
+        [SerializeField] protected Transform firePoint;
         /// <summary> 목표 위치 </summary>
         [SerializeField] protected Transform targetPosition;
 
@@ -36,6 +35,8 @@ namespace TurretTest
         public float lifeTime;
         /// <summary> 투사체 발사 개수 </summary>
         public int projectileCount;
+        /// <summary> 소환 위치 인덱스 </summary>
+        public int spawnPointIndex;
 
         /****************************************************************************
                                         Unity Callbacks

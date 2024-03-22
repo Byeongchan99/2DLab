@@ -337,13 +337,13 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 346271456}
-  - {fileID: 1255051067}
-  - {fileID: 2001249665}
-  - {fileID: 536402494}
-  - {fileID: 195732264}
-  - {fileID: 306577357}
-  - {fileID: 880510071}
   - {fileID: 896804418}
+  - {fileID: 880510071}
+  - {fileID: 306577357}
+  - {fileID: 195732264}
+  - {fileID: 536402494}
+  - {fileID: 2001249665}
+  - {fileID: 1255051067}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &185804552
@@ -400,7 +400,7 @@ GameObject:
   m_Component:
   - component: {fileID: 195732264}
   m_Layer: 0
-  m_Name: GameObject (4)
+  m_Name: Point 5
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -431,7 +431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 306577357}
   m_Layer: 0
-  m_Name: GameObject (5)
+  m_Name: Point 4
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -462,7 +462,7 @@ GameObject:
   m_Component:
   - component: {fileID: 346271456}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: Point 1
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -493,7 +493,7 @@ GameObject:
   m_Component:
   - component: {fileID: 536402494}
   m_Layer: 0
-  m_Name: GameObject (3)
+  m_Name: Point 6
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -524,7 +524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 880510071}
   m_Layer: 0
-  m_Name: GameObject (7)
+  m_Name: Point 3
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -555,7 +555,7 @@ GameObject:
   m_Component:
   - component: {fileID: 896804418}
   m_Layer: 0
-  m_Name: GameObject (6)
+  m_Name: Point 2
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -782,7 +782,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1255051067}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Point 8
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -956,7 +956,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2001249665}
   m_Layer: 0
-  m_Name: GameObject (2)
+  m_Name: Point 7
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1008,13 +1008,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPositions:
   - {fileID: 346271456}
-  - {fileID: 1255051067}
-  - {fileID: 2001249665}
-  - {fileID: 536402494}
-  - {fileID: 195732264}
-  - {fileID: 306577357}
-  - {fileID: 880510071}
   - {fileID: 896804418}
+  - {fileID: 880510071}
+  - {fileID: 306577357}
+  - {fileID: 195732264}
+  - {fileID: 536402494}
+  - {fileID: 2001249665}
+  - {fileID: 1255051067}
   isAvailableSpawnPosition: 
   turretPrefabs:
   - {fileID: 2324212255878980645, guid: ebe5420047067de419adfde9771b0461, type: 3}

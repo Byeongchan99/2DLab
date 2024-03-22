@@ -317,6 +317,15 @@ namespace TurretTest
             {
                 // 터렛 소환
                 GameObject spawnedTurret = Instantiate(turretToSpawn, spawnPosition.position, Quaternion.identity, turretsParent.transform);
+
+                // 1번부터 4번 스폰 포인트에서는 터렛 스프라이트를 반대로 설정
+                if (spawnPositionIndex >= 0 && spawnPositionIndex <= 3)
+                {
+                    Vector3 currentScale = spawnedTurret.transform.localScale;
+                    currentScale.x *= -1;
+                    spawnedTurret.transform.localScale = currentScale;
+                }
+
                 // 소환된 터렛에서 BaseTurret 컴포넌트 찾기
                 BaseTurret turretComponent = spawnedTurret.GetComponent<BaseTurret>();
                 if (turretComponent != null)
@@ -325,7 +334,7 @@ namespace TurretTest
                     turretComponent.spawnPointIndex = spawnPositionIndex;
                     turretComponent.spawner = this;
 
-                    // 분열 총알 이벤트가 활성화된 경우
+                    // 분열 총알 이벤트가 활성화된 경우(임시)
                     if (isBulletSplitActive && turretComponent is BulletTurret bulletTurret)
                     {
                         Debug.Log("분열 총알 적용");
