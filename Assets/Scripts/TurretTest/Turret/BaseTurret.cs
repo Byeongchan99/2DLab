@@ -6,23 +6,41 @@ using UnityEngine;
 
 public abstract class BaseTurret : MonoBehaviour
 {
-    public TurretSpawner spawner; // TurretSpawner 참조
+    /****************************************************************************
+                                 protected Fields
+    ****************************************************************************/
+    /// <summary> 공격 속도 = 터렛 유지 시간 / 투사체 발사 개수 </summary>
+    protected float attackSpeed;
+    /// <summary> 마지막 발사 이후 경과 시간 </summary>
+    protected float timeSinceLastShot = 0f;
+    /// <summary> 소환 위치 인덱스 </summary>
+    [SerializeField] protected int spawnPointIndex;
+    /// <summary> 투사체가 발사되는 위치(투사체가 생성되는 위치) </summary>
+    protected Transform firePoint;
+    /// <summary> 목표 위치 </summary>
+    [SerializeField] protected Transform targetPosition;
 
-    public float lifeTime; // 터렛 유지 시간
-    public int projectileCount; // 투사체 발사 개수
-    public int spawnPointIndex; // 소환 위치
-    public Transform firePoint; // 발사 위치
-    public Transform targetPosition; // 목표 위치
+    /// <summary> 발사할 투사체 프리팹 리스트 </summary>
+    [SerializeField] protected GameObject[] projectilePrefabs;
+    /// <summary> 현재 발사할 투사체 프리팹 </summary>
+    [SerializeField] protected GameObject currentProjectilePrefabs;
 
-    protected float attackSpeed; // 공격 속도
-    protected float timeSinceLastShot = 0f; // 마지막 발사 이후 경과 시간
+    /****************************************************************************
+                                   public Fields
+    ****************************************************************************/
+    /// <summary> TurretSpawner 참조 </summary>
+    public TurretSpawner spawner;
+    /// <summary> 터렛 유지 시간 </summary>
+    public float lifeTime;
+    /// <summary> 투사체 발사 개수 </summary>
+    public int projectileCount;
 
-    public GameObject[] projectilePrefabs; // 발사할 투사체 프리팹 리스트
-    protected GameObject currentProjectilePrefabs; // 현재 발사할 투사체 프리팹
-
+    /****************************************************************************
+                                    Unity Callbacks
+    ****************************************************************************/
     void Awake()
     {
-        InitTurret();
+        InitTurret(); // 초기화
     }
 
     void Update()
@@ -43,12 +61,16 @@ public abstract class BaseTurret : MonoBehaviour
         lifeTime -= Time.deltaTime;
     }
 
+    /****************************************************************************
+                                 private Methods
+    ****************************************************************************/
+    /// <summary> 투사체를 발사 가능한지 확인 </summary>
     protected bool ShouldShoot()
     {
         return timeSinceLastShot >= attackSpeed;
     }
 
-    // 초기화
+    /// <summary> 터렛 초기화 </summary>
     protected virtual void InitTurret()
     {
         attackSpeed = lifeTime / projectileCount;
@@ -56,9 +78,11 @@ public abstract class BaseTurret : MonoBehaviour
         targetPosition = PlayerStat.Instance.transform;
     }
 
+    /// <summary> 투사체 발사 </summary>
     protected abstract void Shoot();
 
-    // 터렛 비활성화
+    /// <summary> 터렛 비활성화 </summary>
+    // 나중에 오브젝트 풀링으로 변경
     protected void DisableTurret()
     {
         gameObject.SetActive(false);
@@ -69,12 +93,16 @@ public abstract class BaseTurret : MonoBehaviour
         }
     }
 
-    // 발사할 투사체를 교체
+    /****************************************************************************
+                                 public Methods
+    ****************************************************************************/
+    /// <summary> 발사할 투사체 변경 </summary>
     public virtual void ChangeProjectile(int projectileIndex)
     {
         Debug.Log("ChangeProjectile");
         currentProjectilePrefabs = projectilePrefabs[projectileIndex];
     }
 
-    public abstract void RotateTurret(); // 터렛의 포를 회전하는 메서드
+    /// <summary> 터렛의 포를 회전 </summary>
+    public abstract void RotateTurret();
 }
