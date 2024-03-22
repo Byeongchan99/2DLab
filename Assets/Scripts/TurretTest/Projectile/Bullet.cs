@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : BaseProjectile
+namespace TurretTest
 {
-    protected override void Move()
+    public class Bullet : BaseProjectile
     {
-        // 발사체 특유의 움직임 로직
-        base.Move(); // 기본 움직임도 필요하면 호출
+        protected override void Move()
+        {
+            // 발사체 특유의 움직임 로직
+            base.Move(); // 기본 움직임도 필요하면 호출
+        }
     }
 }

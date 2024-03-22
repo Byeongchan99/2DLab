@@ -2,53 +2,64 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseProjectile : MonoBehaviour
+namespace TurretTest
 {
-    public float speed = 5.0f;
-    private Rigidbody2D rb;
-
-    protected virtual void Start()
+    public class BaseProjectile : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody2D>();
-        Move();
-    }
+        public float speed = 5.0f;
+        private Rigidbody2D rb;
 
-    protected void Update()
-    {
-        CheckOutOfBounds();
-    }
-
-    public void ChangeSpeed(float newSpeed)
-    {
-        speed = newSpeed;
-        Move();
-    }
-
-    protected virtual void Move()
-    {
-        rb.velocity = transform.right * speed;
-    }
-
-    protected void CheckOutOfBounds()
-    {
-        if (transform.position.magnitude > 20.0f) // 예시로 20을 사용
+        /// <summary> 초기화 </summary>
+        protected virtual void Start()
         {
-            DestroyProjectile();
+            rb = GetComponent<Rigidbody2D>();
+            Move();
         }
-    }
 
-    protected void DestroyProjectile()
-    {
-        // 추가적인 비활성화 로직이 필요하면 여기에 작성
-        Destroy(gameObject);
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
+        protected void Update()
         {
-            // 플레이어와 충돌했을 때의 로직
-            DestroyProjectile();
+            CheckOutOfBounds();
+        }
+
+        /// <summary> 속도 변경 </summary>
+        public void ChangeSpeed(float newSpeed)
+        {
+            speed = newSpeed;
+            Move();
+        }
+
+        /// <summary> 이동 </summary>
+        protected virtual void Move()
+        {
+            rb.velocity = transform.right * speed;
+        }
+
+        /// <summary> 이벤트 리스너 추가 </summary>
+        protected void CheckOutOfBounds()
+        {
+            // 원점으로부터 20 이상 떨어지면 삭제
+            if (transform.position.magnitude > 20.0f)
+            {
+                DestroyProjectile();
+            }
+        }
+
+        /// <summary> 발사체 파괴 </summary>
+        protected void DestroyProjectile()
+        {
+            // 나중에 오브젝트 풀링으로 변경
+            Destroy(gameObject);
+        }
+
+        /// <summary> 충돌 검사 </summary>
+        void OnTriggerEnter2D(Collider2D collision)
+        {
+            // 플레이어와 충돌했을 때
+            if (collision.CompareTag("Player"))
+            {                
+                DestroyProjectile();
+            }
+            // 나중에 EMP와 충돌했을 때 추가
         }
     }
 }

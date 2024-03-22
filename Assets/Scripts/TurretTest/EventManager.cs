@@ -3,66 +3,70 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable]
-public class TurretUpgradeEvent : UnityEvent<TurretUpgrade> { }
-
-/// <summary> 이벤트 버스 패턴으로 구현한 이벤트 매니저 </summary>
-public class EventManager : MonoBehaviour
+namespace TurretTest
 {
-    // 싱글톤 인스턴스
-    public static EventManager Instance;
-    // 이벤트 딕셔너리
-    private Dictionary<string, TurretUpgradeEvent> enhancementEventDictionary;
+    [System.Serializable]
+    public class TurretUpgradeEvent : UnityEvent<TurretUpgrade> { }
 
-    void Awake()
+    /// <summary> 이벤트 버스 패턴으로 구현한 이벤트 매니저 </summary>
+    public class EventManager : MonoBehaviour
     {
-        if (Instance == null)
+        // 싱글톤 인스턴스
+        public static EventManager Instance;
+        // 이벤트 딕셔너리
+        private Dictionary<string, TurretUpgradeEvent> enhancementEventDictionary;
+
+        void Awake()
         {
-            Instance = this;
-            enhancementEventDictionary = new Dictionary<string, TurretUpgradeEvent>();
-        }
-        else if (Instance != this)
-        {
-            Destroy(gameObject);
+            // 싱글톤 인스턴스 설정
+            if (Instance == null)
+            {
+                Instance = this;
+                enhancementEventDictionary = new Dictionary<string, TurretUpgradeEvent>();
+            }
+            else if (Instance != this)
+            {
+                Destroy(gameObject);
+            }
+
+            DontDestroyOnLoad(gameObject);
         }
 
-        DontDestroyOnLoad(gameObject);
-    }
-
-    // 이벤트 리스너 추가
-    public static void StartListening(string eventName, UnityAction<TurretUpgrade> listener)
-    {
-        TurretUpgradeEvent thisEvent = null;
-        if (Instance.enhancementEventDictionary.TryGetValue(eventName, out thisEvent))
+        /// <summary> 이벤트 리스너 추가 </summary>
+        public static void StartListening(string eventName, UnityAction<TurretUpgrade> listener)
         {
-            thisEvent.AddListener(listener);
+            TurretUpgradeEvent thisEvent = null;
+            if (Instance.enhancementEventDictionary.TryGetValue(eventName, out thisEvent))
+            {
+                thisEvent.AddListener(listener);
+            }
+            else
+            {
+                thisEvent = new TurretUpgradeEvent();
+                thisEvent.AddListener(listener);
+                Instance.enhancementEventDictionary.Add(eventName, thisEvent);
+            }
         }
-        else
-        {
-            thisEvent = new TurretUpgradeEvent();
-            thisEvent.AddListener(listener);
-            Instance.enhancementEventDictionary.Add(eventName, thisEvent);
-        }
-    }
 
-    // 이벤트 리스너 제거
-    public static void StopListening(string eventName, UnityAction<TurretUpgrade> listener)
-    {
-        if (Instance == null) return;
-        TurretUpgradeEvent thisEvent = null;
-        if (Instance.enhancementEventDictionary.TryGetValue(eventName, out thisEvent))
+        /// <summary> 이벤트 리스너 제거 </summary>
+        public static void StopListening(string eventName, UnityAction<TurretUpgrade> listener)
         {
-            thisEvent.RemoveListener(listener);
+            if (Instance == null) return;
+            TurretUpgradeEvent thisEvent = null;
+            if (Instance.enhancementEventDictionary.TryGetValue(eventName, out thisEvent))
+            {
+                thisEvent.RemoveListener(listener);
+            }
         }
-    }
 
-    // 이벤트 트리거
-    public static void TriggerEnhancementEvent(string eventName, TurretUpgrade enhancementData)
-    {
-        TurretUpgradeEvent thisEvent = null;
-        if (Instance.enhancementEventDictionary.TryGetValue(eventName, out thisEvent))
+        /// <summary> 이벤트 트리거 </summary>
+        public static void TriggerEnhancementEvent(string eventName, TurretUpgrade enhancementData)
         {
-            thisEvent.Invoke(enhancementData);
+            TurretUpgradeEvent thisEvent = null;
+            if (Instance.enhancementEventDictionary.TryGetValue(eventName, out thisEvent))
+            {
+                thisEvent.Invoke(enhancementData);
+            }
         }
     }
 }
