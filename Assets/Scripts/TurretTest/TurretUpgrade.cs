@@ -8,8 +8,8 @@ namespace TurretTest
 
         public enum EnhancementType // 터렛 강화 종류
         {
-            // 발사체 개수 증가, 발사체 속도 증가, 발사체 분열, 발사체 지속시간 증가(레이저 터렛 전용), 유도 성능 증가(박격포 터렛 전용)
-            CountIncrease, SpeedIncrease, ProjectileSplit, RemainTimeIncrease, InductionUpgrade 
+            // 발사체 개수 증가, 발사체 속도 증가, 발사체 분열, 발사체 지속시간 증가(레이저 터렛 전용), 유도 성능 증가(박격포 터렛 전용), 분열 제거
+            CountIncrease, SpeedIncrease, ProjectileSplit, RemainTimeIncrease, InductionUpgrade, RemoveSplit
         }
         public EnhancementType enhancementType;
     }

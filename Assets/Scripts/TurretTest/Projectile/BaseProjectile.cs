@@ -39,7 +39,7 @@ namespace TurretTest
             rb.velocity = moveDirection * speed;
         }
 
-        /// <summary> 이벤트 리스너 추가 </summary>
+        /// <summary> 맵 범위 검사 </summary>
         protected void CheckOutOfBounds()
         {
             // 원점으로부터 20 이상 떨어지면 삭제

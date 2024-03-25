@@ -105,6 +105,9 @@ namespace TurretTest
                         case TurretUpgrade.EnhancementType.SpeedIncrease:
                             // 속도 증가 처리
                             break;
+                        case TurretUpgrade.EnhancementType.RemoveSplit:
+                            isBulletSplitActive = false;
+                            break;
                             // 기타 필요한 경우 추가
                     }
                     break;
@@ -334,11 +337,19 @@ namespace TurretTest
                     turretComponent.spawnPointIndex = spawnPositionIndex;
                     turretComponent.spawner = this;
 
-                    // 분열 총알 이벤트가 활성화된 경우(임시)
-                    if (isBulletSplitActive && turretComponent is BulletTurret bulletTurret)
+
+                    if (turretComponent is BulletTurret bulletTurret)
                     {
-                        Debug.Log("분열 총알 적용");
-                        bulletTurret.ChangeProjectile(1); // 분열 총알 프리팹 적용
+                        if (isBulletSplitActive)
+                        {
+                            // 분열 총알 이벤트가 활성화된 경우(임시)
+                            Debug.Log("분열 총알 적용");
+                            bulletTurret.ChangeProjectile(1); // 분열 총알 프리팹 적용
+                        }
+                        else
+                        {
+                            bulletTurret.ChangeProjectile(0); // 기본 총알 프리팹 적용
+                        }
                     }
                 }
                 else

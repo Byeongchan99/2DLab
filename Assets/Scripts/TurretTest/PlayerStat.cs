@@ -21,20 +21,28 @@ namespace TurretTest
             }
         }
 
-        private void Update()
+        /// <summary> 터렛 분열 총알 활성화 이벤트 </summary>
+        public void TurretSplitEvent()
         {
-            // 임시로 스페이스바 입력 시 터렛 업그레이드 이벤트 발생
-            if (Input.GetKeyDown(KeyCode.Space))
+            TurretUpgrade bulletTurretSplit = new TurretUpgrade
             {
-                Debug.Log("스페이스바 입력");
-                TurretUpgrade bulletTurretSplit = new TurretUpgrade
-                {
-                    turretType = TurretUpgrade.TurretType.Bullet,
-                    enhancementType = TurretUpgrade.EnhancementType.ProjectileSplit,
-                };
+                turretType = TurretUpgrade.TurretType.Bullet,
+                enhancementType = TurretUpgrade.EnhancementType.ProjectileSplit,
+            };
 
-                EventManager.TriggerEnhancementEvent("TurretUpgrade", bulletTurretSplit);
-            }
+            EventManager.TriggerEnhancementEvent("TurretUpgrade", bulletTurretSplit);
+        }
+
+        /// <summary> 터렛 분열 총알 활성화 이벤트 </summary>
+        public void TurretRemoveSplitEvent()
+        {
+            TurretUpgrade bulletTurretRemoveSplit = new TurretUpgrade
+            {
+                turretType = TurretUpgrade.TurretType.Bullet,
+                enhancementType = TurretUpgrade.EnhancementType.RemoveSplit,
+            };
+
+            EventManager.TriggerEnhancementEvent("TurretUpgrade", bulletTurretRemoveSplit);
         }
     }
 }
