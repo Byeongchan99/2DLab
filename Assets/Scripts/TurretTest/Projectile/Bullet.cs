@@ -9,7 +9,8 @@ namespace TurretTest
         protected override void Move()
         {
             // 발사체 특유의 움직임 로직
-            rb.velocity = transform.right * speed;
+            //rb.velocity = transform.right * speed;
+            base.Move();
         }
     }
 }

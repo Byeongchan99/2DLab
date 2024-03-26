@@ -49,9 +49,9 @@ namespace TurretTest
             }
 
             // direction 벡터를 반시계 방향으로 90도 회전
-            Vector2 shootingDirection = new Vector2(-direction.y, direction.x);
+            //Vector2 shootingDirection = new Vector2(-direction.y, direction.x);
             // direction 벡터를 바탕으로 Quaternion 생성
-            Quaternion rotation = Quaternion.LookRotation(Vector3.forward, shootingDirection);
+            Quaternion rotation = Quaternion.LookRotation(Vector3.forward, direction);
 
             // 오브젝트 풀에서 총알 가져오기
             BaseProjectile projectile = ProjectilePoolManager.Instance.Get(currentProjectilePrefabs.name);
@@ -61,6 +61,7 @@ namespace TurretTest
                 // 총알 위치와 회전 설정
                 projectile.transform.position = firePoint.position;
                 projectile.transform.rotation = rotation;
+                projectile.SetDirection(direction);
                 projectile.gameObject.SetActive(true);
             }
             else

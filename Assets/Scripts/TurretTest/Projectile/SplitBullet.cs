@@ -9,9 +9,9 @@ namespace TurretTest
         [SerializeField] float splitTime = 1f;
         [SerializeField] string bulletPoolName;
 
-        protected override void Start()
+        protected override void OnEnable()
         {
-            base.Start();
+            base.OnEnable();
             StartCoroutine(Split());
         }
 
@@ -21,6 +21,7 @@ namespace TurretTest
 
             // 현재 총알의 방향을 기준으로 분열
             Quaternion currentRotation = transform.rotation;
+            Vector2 currentDirection = moveDirection;
 
             // 오브젝트 풀에서 분열 총알 가져오기
             BaseProjectile bullet1 = ProjectilePoolManager.Instance.Get(bulletPoolName);
@@ -31,14 +32,18 @@ namespace TurretTest
             {
                 bullet1.transform.position = transform.position;
                 bullet1.transform.rotation = currentRotation * Quaternion.Euler(0, 0, 45);
-                bullet1.gameObject.SetActive(true);
+                bullet1.SetDirection(Quaternion.Euler(0, 0, 45) * currentDirection); // 방향 설정
 
                 bullet2.transform.position = transform.position;
                 bullet2.transform.rotation = currentRotation;
-                bullet2.gameObject.SetActive(true);
+                bullet2.SetDirection(currentDirection); // 방향 설정
 
                 bullet3.transform.position = transform.position;
                 bullet3.transform.rotation = currentRotation * Quaternion.Euler(0, 0, -45);
+                bullet3.SetDirection(Quaternion.Euler(0, 0, -45) * currentDirection); // 방향 설정
+
+                bullet1.gameObject.SetActive(true);
+                bullet2.gameObject.SetActive(true);
                 bullet3.gameObject.SetActive(true);
             }
             else

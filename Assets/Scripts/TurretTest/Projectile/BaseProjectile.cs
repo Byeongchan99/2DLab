@@ -17,14 +17,21 @@ namespace TurretTest
             rb = GetComponent<Rigidbody2D>();
         }
 
-        protected virtual void Start()
+        protected virtual void OnEnable()
         {
-            Move();
+
         }
 
         protected void Update()
         {
             CheckOutOfBounds();
+        }
+
+        /// <summary> 방향 설정 </summary>
+        public void SetDirection(Vector2 dir)
+        {
+            moveDirection = dir;
+            Move();
         }
 
         /// <summary> 속도 변경 </summary>
@@ -36,7 +43,7 @@ namespace TurretTest
         /// <summary> 이동 </summary>
         protected virtual void Move()
         {
-            rb.velocity = moveDirection * speed;
+            rb.velocity = moveDirection.normalized * speed;
         }
 
         /// <summary> 맵 범위 검사 </summary>
