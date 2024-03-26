@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static TurretTest.TurretUpgrade;
 
 namespace TurretTest
 {
@@ -316,6 +317,51 @@ namespace TurretTest
 
             Transform spawnPosition = spawnPositions[spawnPositionIndex];
 
+            // 오브젝트 풀에서 터렛 가져오기
+            BaseTurret turret = TurretPoolManager.Instance.Get(turretToSpawn.name);
+
+            if (turret != null)
+            {
+                turret.gameObject.SetActive(true);
+                turret.transform.position = spawnPosition.position;
+                turret.transform.rotation = Quaternion.identity;
+
+                // 1번부터 4번 스폰 포인트에서는 터렛 스프라이트를 반대로 설정
+                if (spawnPositionIndex >= 0 && spawnPositionIndex <= 3)
+                {
+                    Vector3 currentScale = turret.transform.localScale;
+                    currentScale.x *= -1;
+                    turret.transform.localScale = currentScale;
+                }
+
+                turret.transform.SetParent(turretsParent.transform);
+
+                // spawnPoint 설정
+                turret.spawnPointIndex = spawnPositionIndex;
+                turret.spawner = this;
+
+                if (turret is BulletTurret bulletTurret)
+                {
+                    if (isBulletSplitActive)
+                    {
+                        // 분열 총알 이벤트가 활성화된 경우(임시)
+                        Debug.Log("분열 총알 적용");
+                        bulletTurret.ChangeProjectile(1); // 분열 총알 프리팹 적용
+                    }
+                    else
+                    {
+                        bulletTurret.ChangeProjectile(0); // 기본 총알 프리팹 적용
+                    }
+                }
+
+                nextSpawnTime = ChooseCooldown(turretToSpawn); // 다음 소환까지의 시간 설정
+            }
+            else
+            {
+                Debug.LogWarning($"Failed to get turret of type {turretToSpawn} from pool.");
+            }
+
+            /*
             if (turretToSpawn != null)
             {
                 // 터렛 소환
@@ -358,6 +404,7 @@ namespace TurretTest
                 }
                 nextSpawnTime = ChooseCooldown(turretToSpawn); // 다음 소환까지의 시간 설정
             }
+            */
         }
 
         /// <summary> 터렛 종류 선택 </summary>

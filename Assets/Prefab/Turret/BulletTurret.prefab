@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 6975866337161361097}
   - component: {fileID: 8541999686813899783}
   m_Layer: 0
-  m_Name: Turret
+  m_Name: BulletTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -194,6 +194,7 @@ MonoBehaviour:
   projectileCount: 5
   spawnPointIndex: 0
   rotatePoint: {fileID: 5189703175745295079}
+  direction: {x: 0, y: 0}
 --- !u!1 &5866501754651022631
 GameObject:
   m_ObjectHideFlags: 0
