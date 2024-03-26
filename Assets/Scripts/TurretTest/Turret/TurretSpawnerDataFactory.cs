@@ -26,7 +26,6 @@ namespace TurretTest
             if (Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
                 PopulateDictionary();
             }
             else

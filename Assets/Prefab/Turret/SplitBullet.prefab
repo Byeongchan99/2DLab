@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1110122892527857602}
   - component: {fileID: 5347908552673618372}
   m_Layer: 7
-  m_Name: Split Bullet
+  m_Name: SplitBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,5 +162,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  moveDirection: {x: 0, y: 0}
   splitTime: 1
-  projectilePrefab: {fileID: 1364490355542663620, guid: 4ec30eafb771eba4380a76c3fea7fe56, type: 3}
+  bulletPoolName: Bullet

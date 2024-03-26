@@ -52,8 +52,23 @@ namespace TurretTest
             Vector2 shootingDirection = new Vector2(-direction.y, direction.x);
             // direction 벡터를 바탕으로 Quaternion 생성
             Quaternion rotation = Quaternion.LookRotation(Vector3.forward, shootingDirection);
-            // 투사체 인스턴스화 및 방향 설정
-            GameObject projectileObject = Instantiate(currentProjectilePrefabs, firePoint.position, rotation);
+
+            // 오브젝트 풀에서 총알 가져오기
+            BaseProjectile projectile = ProjectilePoolManager.Instance.Get(currentProjectilePrefabs.name);
+
+            if (projectile != null)
+            {
+                // 총알 위치와 회전 설정
+                projectile.transform.position = firePoint.position;
+                projectile.transform.rotation = rotation;
+                projectile.gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.LogWarning("Failed to get projectile from pool.");
+            }
+
+
 
             /*
             BaseProjectile projectile = projectileObject.GetComponent<BaseProjectile>();

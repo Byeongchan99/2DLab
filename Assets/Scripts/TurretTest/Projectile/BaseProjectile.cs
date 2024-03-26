@@ -52,8 +52,7 @@ namespace TurretTest
         /// <summary> 발사체 파괴 </summary>
         protected void DestroyProjectile()
         {
-            // 나중에 오브젝트 풀링으로 변경
-            Destroy(gameObject);
+            ProjectilePoolManager.Instance.Return(this.GetType().Name, this);
         }
 
         /// <summary> 충돌 검사 </summary>
