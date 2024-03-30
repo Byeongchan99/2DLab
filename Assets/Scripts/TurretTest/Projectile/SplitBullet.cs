@@ -6,8 +6,8 @@ namespace TurretTest
 {
     public class SplitBullet : Bullet
     {
-        [SerializeField] float splitTime = 1f;
-        [SerializeField] string bulletPoolName;
+        [SerializeField] float _splitTime = 1f;
+        [SerializeField] string _bulletPoolName;
 
         protected override void OnEnable()
         {
@@ -17,16 +17,16 @@ namespace TurretTest
 
         IEnumerator Split()
         {
-            yield return new WaitForSeconds(splitTime);
+            yield return new WaitForSeconds(_splitTime);
 
             // 현재 총알의 방향을 기준으로 분열
             Quaternion currentRotation = transform.rotation;
             Vector2 currentDirection = moveDirection;
 
             // 오브젝트 풀에서 분열 총알 가져오기
-            BaseProjectile bullet1 = ProjectilePoolManager.Instance.Get(bulletPoolName);
-            BaseProjectile bullet2 = ProjectilePoolManager.Instance.Get(bulletPoolName);
-            BaseProjectile bullet3 = ProjectilePoolManager.Instance.Get(bulletPoolName);
+            BaseProjectile bullet1 = ProjectilePoolManager.Instance.Get(_bulletPoolName);
+            BaseProjectile bullet2 = ProjectilePoolManager.Instance.Get(_bulletPoolName);
+            BaseProjectile bullet3 = ProjectilePoolManager.Instance.Get(_bulletPoolName);
 
             if (bullet1 != null && bullet2 != null && bullet3 != null)
             {

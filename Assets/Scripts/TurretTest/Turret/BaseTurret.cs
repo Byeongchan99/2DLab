@@ -12,9 +12,11 @@ namespace TurretTest
                                      protected Fields
         ****************************************************************************/
         /// <summary> 공격 속도 = 터렛 유지 시간 / 투사체 발사 개수 </summary>
-        protected float attackSpeed;
+        [SerializeField] protected float _attackSpeed;
         /// <summary> 마지막 발사 이후 경과 시간 </summary>
-        protected float timeSinceLastShot = 0f;
+        [SerializeField] protected float _timeSinceLastShot = 0f;
+        /// <summary> 터렛 유지 시간 </summary>
+        [SerializeField] protected float _lifeTime;
 
         /// <summary> 투사체가 발사되는 위치(투사체가 생성되는 위치) </summary>
         [SerializeField] protected Transform firePoint;
@@ -31,8 +33,8 @@ namespace TurretTest
         ****************************************************************************/
         /// <summary> TurretSpawner 참조 </summary>
         public TurretSpawner spawner;
-        /// <summary> 터렛 유지 시간 </summary>
-        public float lifeTime;
+        /// <summary> 현재 터렛 유지 시간 </summary>
+        public float currentLifeTime;
         /// <summary> 투사체 발사 개수 </summary>
         public int projectileCount;
         /// <summary> 소환 위치 인덱스 </summary>
@@ -41,7 +43,7 @@ namespace TurretTest
         /****************************************************************************
                                         Unity Callbacks
         ****************************************************************************/
-        void Awake()
+        void OnEnable()
         {
             InitTurret(); // 초기화
         }
@@ -51,17 +53,17 @@ namespace TurretTest
             if (ShouldShoot())
             {
                 Shoot();
-                timeSinceLastShot = 0f;
+                _timeSinceLastShot = 0f;
             }
 
-            timeSinceLastShot += Time.deltaTime;
+            _timeSinceLastShot += Time.deltaTime;
 
-            if (lifeTime <= 0)
+            if (currentLifeTime <= 0)
             {
                 DisableTurret();
             }
 
-            lifeTime -= Time.deltaTime;
+            currentLifeTime -= Time.deltaTime;
         }
 
         /****************************************************************************
@@ -70,13 +72,14 @@ namespace TurretTest
         /// <summary> 투사체를 발사 가능한지 확인 </summary>
         protected bool ShouldShoot()
         {
-            return timeSinceLastShot >= attackSpeed;
+            return _timeSinceLastShot >= _attackSpeed;
         }
 
         /// <summary> 터렛 초기화 </summary>
         protected virtual void InitTurret()
         {
-            attackSpeed = lifeTime / projectileCount;
+            currentLifeTime = _lifeTime;
+            _attackSpeed = _lifeTime / projectileCount;
             currentProjectilePrefabs = projectilePrefabs[0];
             targetPosition = PlayerStat.Instance.transform;
         }
@@ -85,10 +88,14 @@ namespace TurretTest
         protected abstract void Shoot();
 
         /// <summary> 터렛 비활성화 </summary>
-        // 나중에 오브젝트 풀링으로 변경
         protected void DisableTurret()
         {
-            gameObject.SetActive(false);
+            // 이름에서 (Clone)을 제거
+            string poolName = gameObject.name.Replace("(Clone)", "");
+
+            // 오브젝트 풀에 터렛 반환
+            TurretPoolManager.Instance.Return(poolName, this);
+
             // 소환 위치 반환
             if (spawner != null)
             {

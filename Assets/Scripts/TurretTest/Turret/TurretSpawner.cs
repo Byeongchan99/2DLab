@@ -33,10 +33,10 @@ namespace TurretTest
         [SerializeField]  List<int> eventSpawnLevels = new List<int>();
         [SerializeField]  List<float> eventSpawnCooltimePercents = new List<float>();
 
-        private float nextSpawnTime = 0f;
-        private bool isSpawning = false; // 현재 소환 중인지 여부를 나타내는 플래그
+        private float _nextSpawnTime = 0f;
+        private bool _isSpawning = false; // 현재 소환 중인지 여부를 나타내는 플래그
 
-        private bool isBulletSplitActive = false; // 분열 총알 활성화 여부
+        private bool _isBulletSplitActive = false; // 분열 총알 활성화 여부
 
         /****************************************************************************
                                        Unity Callbacks
@@ -98,7 +98,7 @@ namespace TurretTest
                     {
                         case TurretUpgrade.EnhancementType.ProjectileSplit:
                             // Bullet Turret 분열 총알 업그레이드 처리
-                            isBulletSplitActive = true;
+                            _isBulletSplitActive = true;
                             break;
                         case TurretUpgrade.EnhancementType.CountIncrease:
                             // 개수 증가 처리
@@ -107,7 +107,7 @@ namespace TurretTest
                             // 속도 증가 처리
                             break;
                         case TurretUpgrade.EnhancementType.RemoveSplit:
-                            isBulletSplitActive = false;
+                            _isBulletSplitActive = false;
                             break;
                             // 기타 필요한 경우 추가
                     }
@@ -118,7 +118,7 @@ namespace TurretTest
                     {
                         case TurretUpgrade.EnhancementType.RemainTimeIncrease:
                             // Bullet Turret 분열 총알 업그레이드 처리
-                            isBulletSplitActive = true;
+                            _isBulletSplitActive = true;
                             break;
                         case TurretUpgrade.EnhancementType.CountIncrease:
                             // 개수 증가 처리
@@ -135,7 +135,7 @@ namespace TurretTest
                     {
                         case TurretUpgrade.EnhancementType.InductionUpgrade:
                             // Bullet Turret 분열 총알 업그레이드 처리
-                            isBulletSplitActive = true;
+                            _isBulletSplitActive = true;
                             break;
                         case TurretUpgrade.EnhancementType.CountIncrease:
                             // 개수 증가 처리
@@ -152,7 +152,7 @@ namespace TurretTest
                     {
                         case TurretUpgrade.EnhancementType.ProjectileSplit:
                             // Bullet Turret 분열 총알 업그레이드 처리
-                            isBulletSplitActive = true;
+                            _isBulletSplitActive = true;
                             break;
                         case TurretUpgrade.EnhancementType.CountIncrease:
                             // 개수 증가 처리
@@ -294,13 +294,13 @@ namespace TurretTest
         {
             while (true) // 무한 루프를 통해 게임 동안 지속적으로 터렛 소환
             {
-                if (!isSpawning) // 소환 중이 아닐 때만 새로운 터렛 소환 시도
+                if (!_isSpawning) // 소환 중이 아닐 때만 새로운 터렛 소환 시도
                 {
-                    isSpawning = true; // 소환 시작 플래그 설정
+                    _isSpawning = true; // 소환 시작 플래그 설정
                     SpawnTurret();
                     // 선택된 터렛의 쿨타임에 따라 대기
-                    yield return new WaitForSeconds(nextSpawnTime);
-                    isSpawning = false; // 소환 완료 후 플래그 재설정
+                    yield return new WaitForSeconds(_nextSpawnTime);
+                    _isSpawning = false; // 소환 완료 후 플래그 재설정
                 }
                 yield return null; // 다음 프레임까지 대기
             }
@@ -342,7 +342,7 @@ namespace TurretTest
 
                 if (turret is BulletTurret bulletTurret)
                 {
-                    if (isBulletSplitActive)
+                    if (_isBulletSplitActive)
                     {
                         // 분열 총알 이벤트가 활성화된 경우(임시)
                         Debug.Log("분열 총알 적용");
@@ -354,7 +354,7 @@ namespace TurretTest
                     }
                 }
 
-                nextSpawnTime = ChooseCooldown(turretToSpawn); // 다음 소환까지의 시간 설정
+                _nextSpawnTime = ChooseCooldown(turretToSpawn); // 다음 소환까지의 시간 설정
             }
             else
             {

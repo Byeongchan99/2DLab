@@ -163,5 +163,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   moveDirection: {x: 0, y: 0}
-  splitTime: 1
-  bulletPoolName: Bullet
+  _splitTime: 1
+  _bulletPoolName: Bullet
