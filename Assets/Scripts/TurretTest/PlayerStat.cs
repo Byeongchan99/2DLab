@@ -21,6 +21,7 @@ namespace TurretTest
             }
         }
 
+        // 임시로 이벤트 테스트를 위한 메서드
         /// <summary> 터렛 분열 총알 활성화 이벤트 </summary>
         public void TurretSplitEvent()
         {
