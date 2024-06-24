@@ -204,7 +204,7 @@ public class WindowController : MonoBehaviour
         width = Mathf.Max(width, minSize.x);
         height = Mathf.Max(height, minSize.y);
 
-        if (!SetWindowPos(hWnd, IntPtr.Zero, (int)startPos.x, (int)startPos.y, (int)width, (int)height, SWP_NOZORDER))
+        if (!SetWindowPos(hWnd, IntPtr.Zero, (int)(startPos.x + (startSize.x - width) / 2), (int)(startPos.y + (startSize.y - height) / 2), (int)width, (int)height, SWP_NOZORDER))
         {
             Debug.LogError("창 크기를 설정하는 데 실패했습니다.");
         }
@@ -212,7 +212,6 @@ public class WindowController : MonoBehaviour
         {
             //Debug.Log("창 크기 업데이트됨: " + new Vector2(width, height));
         }
-
     }
 
     // 창의 위치와 크기
