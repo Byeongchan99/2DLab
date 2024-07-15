@@ -134,6 +134,8 @@ public class LeaderboardsManager : MonoBehaviour
     }
 
     //----------------------------------------------------------------------------------------------
+    public LeaderboardsUIManager leaderboardsUIManager;
+
     // 이름과 점수를 받아 리더보드에 추가
     public async void AddScore(string name, int score)
     {
@@ -163,9 +165,10 @@ public class LeaderboardsManager : MonoBehaviour
     {
         Limit = limit;
         var scoresResponse = await LeaderboardsService.Instance.GetScoresAsync(LeaderboardId, new GetScoresOptions { Limit = Limit, IncludeMetadata = true });
-        DisplayScores(scoresResponse);
+        leaderboardsUIManager.DisplayScores(scoresResponse);
     }
 
+    /*
     void DisplayScores(LeaderboardScoresPage scoresResponse)
     {
         foreach (var scoreEntry in scoresResponse.Results)
@@ -195,4 +198,5 @@ public class LeaderboardsManager : MonoBehaviour
             Debug.Log($"PlayerId: {scoreEntry.PlayerId}, PlayerName: {playerName}, Rank: {scoreEntry.Rank}, Score: {scoreEntry.Score}, Tier: {scoreEntry.Tier}");
         }
     }
+    */
 }
