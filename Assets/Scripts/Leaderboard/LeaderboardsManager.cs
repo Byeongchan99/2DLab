@@ -10,7 +10,7 @@ using UnityEngine;
 
 public class LeaderboardsManager : MonoBehaviour
 {
-    const string LeaderboardId = "2DLabLeaderboard";
+    string LeaderboardId = "2DLabLeaderboard";
     string VersionId { get; set; }
     int Offset { get; set; }
     int Limit { get; set; }
@@ -135,6 +135,12 @@ public class LeaderboardsManager : MonoBehaviour
 
     //----------------------------------------------------------------------------------------------
     public LeaderboardsUIManager leaderboardsUIManager;
+
+    // 리더보드 ID 설정
+    public void SetLeaderboardID(string leaderboardId)
+    {
+        LeaderboardId = leaderboardId;
+    }
 
     // 이름과 점수를 받아 리더보드에 추가
     public async void AddScore(string name, int score)
