@@ -66,6 +66,12 @@ public class LeaderboardsUIManager : MonoBehaviour
 
     public void DisplayScores(LeaderboardScoresPage scoresResponse)
     {
+        // 기존 리더보드 제거
+        foreach (Transform child in leaderboardContent)
+        {
+            Destroy(child.gameObject);
+        }
+
         foreach (var scoreEntry in scoresResponse.Results)
         {
             string playerName = scoreEntry.PlayerName;
