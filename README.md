@@ -30,16 +30,7 @@
 
 <br/>
 
-# 4. NavMesh를 활용한 자동 길 찾기
-<br/>
-
-![Desktop2024 02 19-06 04 28 02-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/748ec8fa-57f5-4713-93ad-5b26e64b8d26)
-
-유니티의 NavMesh를 사용하여 자동 길 찾기 기능을 구현했습니다.
-
-<br/>
-
-# 5. UI 관리
+# 4. UI 관리
 <br/>
 
 ### 전체화면 UI
@@ -56,7 +47,7 @@
 
 <br/>
 
-# 6. Window API 활용한 효과
+# 5. Window API 활용한 효과
 <br/>
 
 ![WindowGame](https://github.com/user-attachments/assets/66a3907f-1991-4877-803e-ff850bb2a4f7)
@@ -65,7 +56,7 @@ Window API를 활용해 윈도우 창을 옮기고, 크기를 바꾸는 효과�
 
 <br/>
 
-# 7. Unity Gaming Services 리더보드 사용해보기
+# 6. Unity Gaming Services 리더보드 사용해보기
 <br/>
 
 ![image](https://github.com/user-attachments/assets/d0b1f585-c16f-46e7-90e3-303fcba477e0)
