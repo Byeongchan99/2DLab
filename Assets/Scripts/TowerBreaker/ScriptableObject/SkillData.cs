@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SkillData", menuName = "GameData/SkillData")]
 public class SkillData : ScriptableObject
 {
-    int skillLevel;
-    string skillName;
-    float gaugeAmount; // 한번에 충전되는 게이지 양
+    public int skillLevel;
+    public string skillName;
+    public float gaugeAmount; // 한번에 충전되는 게이지 양
 }

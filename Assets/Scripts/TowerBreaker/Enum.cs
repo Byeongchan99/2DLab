@@ -16,4 +16,11 @@ public enum AttackMethod
     Normal
 }
 
+public enum EnemySkill
+{
+    SpeedUp,
+    IncreaseHealth,
+    IncreaseWeight,
+}
+
 // ... 필요한 enum들 추가

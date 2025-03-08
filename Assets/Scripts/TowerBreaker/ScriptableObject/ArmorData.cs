@@ -5,6 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ArmorData", menuName = "GameData/ArmorData")]
 public class ArmorData : MonoBehaviour
 {
-    string ArmorName;
-    BaseSkill ArmorSkill;
+    public string ArmorName;
+    public BaseSkill ArmorSkill;
 }
