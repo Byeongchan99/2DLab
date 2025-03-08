@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Reference")]
     PlayerBehavior _playerBehavior;
 
     private void Awake()

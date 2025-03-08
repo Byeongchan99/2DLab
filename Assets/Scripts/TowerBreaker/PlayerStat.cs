@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
 {
+    [SerializeField]
+    /// <summary>
+    /// 플레이어의 현재 장비
+    /// </summary>
     ArmorData _currentArmor;
     ShieldData _currentShield;
     WeaponData _currentWeapon;

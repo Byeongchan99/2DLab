@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerBehavior : MonoBehaviour
 {
+    [Header("Reference")]
     PlayerStat _playerStat;
-    bool _startDash;
+    bool _isDash;
 
     private void Awake()
     {
@@ -20,7 +21,7 @@ public class PlayerBehavior : MonoBehaviour
     /// </summary>
     public void Dash()
     {
-        if (_startDash)
+        if (_isDash)
         {
             StartCoroutine(DashCoroutine());
         }
@@ -32,7 +33,7 @@ public class PlayerBehavior : MonoBehaviour
 
     IEnumerator DashCoroutine()
     {
-        _startDash = true;
+        _isDash = true;
         // 이동 로직
         yield break;
     }
@@ -43,6 +44,7 @@ public class PlayerBehavior : MonoBehaviour
         if (collision.CompareTag("Enemy"))
         {
             StopCoroutine(DashCoroutine());
+            _isDash = false;
         }
     }
 

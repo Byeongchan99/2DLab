@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class StageData : MonoBehaviour
 {
-    int level;
-    int normalEnemyCount;
-    int eliteEnemyCount;
-    int interruptCount; // 방해 마법 개수
+    public int level; // 레벨
+    public int normalEnemyCount; // 일반 적 개수
+    public int eliteEnemyCount; // 엘리트 적 개수
+    public int interruptCount; // 방해 마법 개수
 }
