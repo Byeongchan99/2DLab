@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
 {
-    ArmorData currentArmor;
-    ShieldData currentShield;
-    WeaponData currentWeapon;
-    float demonicPower; // %로 추가 대미지
+    ArmorData _currentArmor;
+    ShieldData _currentShield;
+    WeaponData _currentWeapon;
+    float _demonicPower; // %로 추가 대미지
+
+    public ArmorData CurrentArmor { get => _currentArmor; set => _currentArmor = value; }
+    public ShieldData CurrentShield { get => _currentShield; set => _currentShield = value; }
+    public WeaponData CurrentWeapon { get => _currentWeapon; set => _currentWeapon = value; }
+    public float DemonicPower { get => _demonicPower; set => _demonicPower = value; }
+
+
 }

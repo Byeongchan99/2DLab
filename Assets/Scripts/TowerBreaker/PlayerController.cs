@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    PlayerBehavior _playerBehavior;
+
+    private void Awake()
     {
-        
+        if (_playerBehavior == null)
+        {
+            _playerBehavior = GetComponent<PlayerBehavior>();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnClickDashButton()
     {
-        
+        Debug.Log("대쉬 버튼 클릭");
+        _playerBehavior.Dash();
+    }
+
+    public void OnClickDefenseButton()
+    {
+        Debug.Log("방어 버튼 클릭");
+        _playerBehavior.Defense();
+    }
+
+    public void OnClickAttackButton()
+    {
+        Debug.Log("공격 버튼 클릭");
+        _playerBehavior.Attack();
     }
 }
