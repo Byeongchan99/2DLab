@@ -6,6 +6,7 @@ public class StageSetting : MonoBehaviour
 {
     [Header("Reference")]
     StageManager _stageManager;
+    EnemyPool _enemyPool;
     GameObject[] _normalEnemyPrefabs;
     GameObject[] _eliteEnemyPrefabs;
     GameObject[] _interruptPrefabs;
@@ -29,23 +30,25 @@ public class StageSetting : MonoBehaviour
         // 일반 적 생성
         for (int i = 0; i < normalEnemyCount; i++)
         {
-            GameObject enemy = Instantiate(_normalEnemyPrefabs[Random.Range(0, _normalEnemyPrefabs.Length)]);
-            //enemy.transform.position = new Vector3(Random.Range(-5, 5), 0, 0);
+            var enemy = _enemyPool.GetRandomNormal(); // 일반 적 풀에서 무작위로 적을 하나 가져온다.
+            enemy.SetStat(data.normalEnemyHealth, data.normalEnemySpeed); // 적의 체력과 속도를 설정한다.
+            //enemy.gameObject.transform.position = new Vector3(Random.Range(-5, 5), 0, 0); // 적의 위치를 설정한다.
+            enemy.gameObject.SetActive(true);
         }
 
         // 엘리트 적 생성
         for (int i = 0; i < eliteEnemyCount; i++)
         {
-            GameObject enemy = Instantiate(_eliteEnemyPrefabs[Random.Range(0, _eliteEnemyPrefabs.Length)]);
-            //enemy.transform.position = new Vector3(Random.Range(-5, 5), 0, 0);
+            var enemy = _enemyPool.GetRandomElite(); // 엘리트 적 풀에서 무작위로 적을 하나 가져온다.
+            enemy.SetStat(data.eliteEnemyHealth, data.eliteEnemySpeed); // 적의 체력과 속도를 설정한다.
+            //enemy.gameObject.transform.position = new Vector3(Random.Range(-5, 5), 0, 0); // 적의 위치를 설정한다.
+            enemy.gameObject.SetActive(true);
         }
 
         // 방해 마법 생성
         for (int i = 0; i < interruptCount; i++)
         {
-            // 방해 마법의 경우 생성된 후 몇 초 후에 움직이도록 구현한다.
-            GameObject interrupt = Instantiate(_interruptPrefabs[Random.Range(0, _interruptPrefabs.Length)]);
-            //interrupt.transform.position = new Vector3(Random.Range(-5, 5), 0, 0);
+            
         }
     }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseMonster : MonoBehaviour
+public class BaseEnemy : MonoBehaviour
 {
     float _currentHealth;
     float _maxHealth;
@@ -12,9 +12,30 @@ public class BaseMonster : MonoBehaviour
     public float MaxHealth { get => _maxHealth; set => _maxHealth = value; }
     public float Speed { get => _speed; set => _speed = value; }
 
+    protected virtual void OnEnable()
+    {
+        // 몇 초뒤에 활성화 로직
+    }
+
+    public void SetStat(float health, float speed)
+    {
+        MaxHealth = health;
+        CurrentHealth = MaxHealth;
+        Speed = speed;
+    }
+
     public virtual void Move()
     {
         // 플레이어를 향해 이동
+    }
+
+    public void TakeDamage(float damage)
+    {
+        CurrentHealth -= damage;
+        if (CurrentHealth <= 0)
+        {
+            Die();
+        }
     }
 
     public virtual void Die()

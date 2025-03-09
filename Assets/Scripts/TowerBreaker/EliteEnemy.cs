@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EliteMonster : BaseMonster
+public class EliteEnemy : BaseEnemy
 {
     EnemySkill enemySkill;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         ActiveSkill();
     }
 

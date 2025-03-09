@@ -16,6 +16,12 @@ public enum AttackMethod
     Normal
 }
 
+public enum EnemyType
+{
+    Normal,
+    Elite,
+}
+
 public enum EnemySkill
 {
     SpeedUp,
