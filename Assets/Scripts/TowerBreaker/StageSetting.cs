@@ -30,8 +30,7 @@ public class StageSetting : MonoBehaviour
         // 일반 적 생성
         for (int i = 0; i < normalEnemyCount; i++)
         {
-            var enemy = _enemyPool.GetRandomNormal(); // 일반 적 풀에서 무작위로 적을 하나 가져온다.
-            enemy.SetStat(data.normalEnemyHealth, data.normalEnemySpeed); // 적의 체력과 속도를 설정한다.
+            var enemy = _enemyPool.GetRandomNormal(data); // 일반 적 풀에서 무작위로 적을 하나 가져온다.          
             //enemy.gameObject.transform.position = new Vector3(Random.Range(-5, 5), 0, 0); // 적의 위치를 설정한다.
             enemy.gameObject.SetActive(true);
         }
@@ -39,8 +38,7 @@ public class StageSetting : MonoBehaviour
         // 엘리트 적 생성
         for (int i = 0; i < eliteEnemyCount; i++)
         {
-            var enemy = _enemyPool.GetRandomElite(); // 엘리트 적 풀에서 무작위로 적을 하나 가져온다.
-            enemy.SetStat(data.eliteEnemyHealth, data.eliteEnemySpeed); // 적의 체력과 속도를 설정한다.
+            var enemy = _enemyPool.GetRandomElite(data); // 엘리트 적 풀에서 무작위로 적을 하나 가져온다.           
             //enemy.gameObject.transform.position = new Vector3(Random.Range(-5, 5), 0, 0); // 적의 위치를 설정한다.
             enemy.gameObject.SetActive(true);
         }
@@ -55,5 +53,10 @@ public class StageSetting : MonoBehaviour
     public void SpawnChest()
     {
         GameObject chest = Instantiate(_chestPrefabs[Random.Range(0, _chestPrefabs.Length)]);
+    }
+
+    public void ActiveChest()
+    {
+
     }
 }

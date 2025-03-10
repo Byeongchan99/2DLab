@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
+    public static StageManager Instance;
+
     [Header("Reference")]
     StageSetting _stageSetting;
 
@@ -17,6 +19,15 @@ public class StageManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         if (_stageSetting == null)
         {
             _stageSetting = GetComponent<StageSetting>();
@@ -24,10 +35,10 @@ public class StageManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 스테이지 데이터 기반으로 스테이지 시작
+    /// 스테이지 데이터 기반으로 스테이지 설정
     /// </summary>
     /// <param name="data"></param>
-    public void StartStage(StageData data)
+    public void SetStage(StageData data)
     {
         // 적 세팅
         _stageSetting.SpawnEnemy(data);
@@ -50,14 +61,15 @@ public class StageManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 스테이지 레벨 기반으로 스테이지 시작
+    /// 스테이지 레벨 기반으로 스테이지 초기화
     /// </summary> 
-    public void StartStage(int level)
+    public void InitStage(int level)
     {
-        StageData data = _stageDataList.Find(x => x.level == level);
+        StageData data = GetStageData(level);
         if (data != null)
         {
-            StartStage(data);
+            SetStage(data);
+            // 캐릭터를 시작 위치로 이동시키는 로직
         }
         else
         {
@@ -71,6 +83,10 @@ public class StageManager : MonoBehaviour
     public void EnemyDestroyed()
     {
         _totalEnemyCount--;
+        if (_totalEnemyCount == 0)
+        {
+            // 보물상자 콜라이더 활성화
+        }
     }
 
     /// <summary>
@@ -79,10 +95,12 @@ public class StageManager : MonoBehaviour
     public void ChestDestroyed()
     {
         _hasChest = false;
+        // 아이템 획득 로직
+        EndStage();
     }
 
     /// <summary>
-    /// 스테이지 종료
+    /// 스테이지 종료 후 일시정지 버튼을 제외한 화면에서 입력이 감지되었을 때 호출
     /// </summary>
     public void EndStage()
     {
@@ -101,8 +119,22 @@ public class StageManager : MonoBehaviour
     IEnumerator EndStageRoutine()
     {
         // 플레이어를 이번 층 끝으로 이동 후
+        yield return new WaitForSeconds(1f);
 
-        // 카메라 이동 + 플레이어를 다음 층 시작 지점으로 이동
+        // 다음 스테이지 세팅
+        StageData nextStageDate = GetStageData(_currentStageData.level + 1);
+        SetStage(nextStageDate);
+
+        // 플레이어를 다음 층 스테이지로 이동 및 카메라 이동
+
         yield break;
+    }
+
+    /// <summary>
+    /// level에 해당하는 StageData 반환
+    /// </summary>
+    StageData GetStageData(int level)
+    {
+        return _stageDataList.Find(x => x.level == level);
     }
 }

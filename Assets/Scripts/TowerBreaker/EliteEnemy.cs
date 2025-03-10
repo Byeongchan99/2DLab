@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EliteEnemy : BaseEnemy
 {
-    EnemySkill enemySkill;
+    public EliteEnemyType eliteEnemyType; // 오브젝트 풀에서 구분하기 위한 엘리트 적 타입
+    EnemySkill _enemySkill;
 
     protected override void OnEnable()
     {
@@ -12,9 +13,18 @@ public class EliteEnemy : BaseEnemy
         ActiveSkill();
     }
 
+    public void SetStat(EliteEnemyData data)
+    {
+        MaxHealth = data.maxHealth;
+        CurrentHealth = data.currentHealth;
+        Speed = data.speed;
+        eliteEnemyType = data.eliteEnemyType;
+        _enemySkill = data.enemySkill;
+    }
+
     void ActiveSkill()
     {
-        switch(enemySkill)
+        switch(_enemySkill)
         {
             case EnemySkill.SpeedUp:
                 SpeedUp();

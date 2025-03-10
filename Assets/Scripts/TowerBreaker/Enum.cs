@@ -19,7 +19,23 @@ public enum AttackMethod
 public enum EnemyType
 {
     Normal,
-    Elite,
+    Elite
+}
+
+public enum NormalEnemyType
+{
+    Normal0,
+    Normal1,
+    Normal2,
+    Normal3,
+}
+
+public enum EliteEnemyType
+{
+    Elite0,
+    Elite1,
+    Elite2,
+    Elite3,
 }
 
 public enum EnemySkill
