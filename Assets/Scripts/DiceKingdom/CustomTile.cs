@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace DiceKingdom
 {
-    public class Tile : MonoBehaviour
+    [CreateAssetMenu(fileName = "NewCustomTile", menuName = "Tiles/Custom Tile")]
+    public class CustomTile : Tile
     {
         public TileData tileData;
 

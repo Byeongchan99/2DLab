@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace DiceKingdom
 {
-    [CustomEditor(typeof(Tile))]
+    [CustomEditor(typeof(CustomTile))]
     public class TileEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
-            Tile tile = (Tile)target;
+            CustomTile tile = (CustomTile)target;
 
             if (GUILayout.Button("Set as Path Tile"))
             {
