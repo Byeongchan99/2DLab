@@ -9,11 +9,5 @@ namespace DiceKingdom
     public class CustomTile : Tile
     {
         public TileData tileData;
-
-        public void TriggerTileEffect(GameObject target)
-        {
-            foreach (var effect in tileData.effects)
-                effect.ApplyEffect(target);
-        }
     }
 }

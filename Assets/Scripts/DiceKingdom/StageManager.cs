@@ -11,16 +11,21 @@ namespace DiceKingdom
         public PathManager pathManager;
         public GameObject monsterPrefab;
 
-        public Vector3 spawnPoint;
-        public Vector3 endPoint;
+        public Transform spawnPoint;
+        public Transform endPoint;
+
+        private void Awake()
+        {
+            StartRound();
+        }
 
         void StartRound()
         {
-            pathManager.InitializePath(spawnPoint, endPoint);
+            pathManager.InitializePath(spawnPoint.position, endPoint.position);
             SpawnMonster();
         }
 
-        void SpawnMonster()
+        public void SpawnMonster()
         {
             GameObject monsterObj = Instantiate(monsterPrefab);
             Enemy monster = monsterObj.GetComponent<Enemy>();

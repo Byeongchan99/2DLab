@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6d46bb81efd0a640a9cb7f1f24bbd5b, type: 3}
   m_Name: SlowEffect
   m_EditorClassIdentifier: 
-  slowAmount: 10
+  slowAmount: 2
