@@ -22,7 +22,7 @@ namespace DiceKingdom
         void StartRound()
         {
             pathManager.InitializePath(spawnPoint.position, endPoint.position);
-            SpawnMonster();
+            //SpawnMonster();
         }
 
         public void SpawnMonster()
