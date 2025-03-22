@@ -57,23 +57,21 @@ namespace DiceKingdom
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        // Tower.cs 내부
+        public void OnRangeTriggerEnter(Collider2D other)
         {
-            Debug.Log("OnTriggerEnter2D");
-            // 새로운 적이 타워의 공격 범위에 들어왔을 때
-            if (collision.gameObject.tag == "Enemy" && currentTarget == null)
-            {
-                Debug.Log("New target acquired: " + collision.gameObject.name);
-                currentTarget = collision.gameObject;              
-            }
+            Debug.Log("범위 트리거 진입: " + other.gameObject.name);
+            // 적 감지 로직 처리...
+            currentTarget = other.gameObject;
         }
 
-        private void OnTriggerExit2D(Collider2D collision)
+        public void OnRangeTriggerExit(Collider2D other)
         {
-            // 타겟인 적이 타워의 공격 범위를 벗어났을 때
-            if (collision.gameObject == currentTarget)
+            Debug.Log("범위 트리거 이탈: " + other.gameObject.name);
+            // 적 이탈 처리...
+            if (other.gameObject == currentTarget)
             {
-                Debug.Log("Target lost: " + collision.gameObject.name);
+                Debug.Log("Target lost: " + other.gameObject.name);
                 currentTarget = null;
             }
         }
@@ -116,10 +114,15 @@ namespace DiceKingdom
         // IDragHandler 구현: 드래그 중 포인터를 따라 타워 위치 업데이트
         public void OnDrag(PointerEventData eventData)
         {
-            if (!isDragging) return;
-
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(eventData.position);
-            worldPos.z = 0f;  // 2D 게임이므로 z는 0으로 고정
+            if (!isDragging)
+                return;
+            // 드래그 시, Tower는 이미 화면상의 위치를 월드 좌표로 변환하여 이동하도록 했다고 가정합니다.
+            // 예를 들어, OnDrag에서 아래와 같이 처리할 수 있습니다.
+            Vector3 screenPos = eventData.position;
+            // 게임 월드 타워는 항상 카메라의 z 오프셋를 사용하여 변환합니다.
+            screenPos.z = Mathf.Abs(Camera.main.transform.position.z);
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+            worldPos.z = 0f;
             transform.position = worldPos;
         }
 
@@ -127,10 +130,7 @@ namespace DiceKingdom
         public void OnPointerUp(PointerEventData eventData)
         {
             Debug.Log("타워 드래그 종료.");
-            // 배치 가능한 타일의 유효성을 확인하는 것은 DeploymentManager가 처리합니다.
-            Vector3 pointerWorldPos = Camera.main.ScreenToWorldPoint(eventData.position);
-            pointerWorldPos.z = 0f;
-            DeploymentManager.Instance.DeploySelectedTower(pointerWorldPos);
+            DeploymentManager.Instance.DeploySelectedTower(transform.position);
         }
 
         // 드래그 중 타워의 시각적 효과 처리 (예: 반투명 효과)
