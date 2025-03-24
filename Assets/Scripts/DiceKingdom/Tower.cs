@@ -116,10 +116,9 @@ namespace DiceKingdom
         {
             if (!isDragging)
                 return;
-            // 드래그 시, Tower는 이미 화면상의 위치를 월드 좌표로 변환하여 이동하도록 했다고 가정합니다.
-            // 예를 들어, OnDrag에서 아래와 같이 처리할 수 있습니다.
+            // 드래그 시, Tower는 이미 화면상의 위치를 월드 좌표로 변환하여 이동하도록 했다고 가정
             Vector3 screenPos = eventData.position;
-            // 게임 월드 타워는 항상 카메라의 z 오프셋를 사용하여 변환합니다.
+            // 게임 월드 내의 타워는 항상 카메라의 z 오프셋를 사용하여 변환
             screenPos.z = Mathf.Abs(Camera.main.transform.position.z);
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
             worldPos.z = 0f;
@@ -133,7 +132,7 @@ namespace DiceKingdom
             DeploymentManager.Instance.DeploySelectedTower(transform.position);
         }
 
-        // 드래그 중 타워의 시각적 효과 처리 (예: 반투명 효과)
+        // 드래그 중 타워의 시각적 효과 처리 - 반투명 효과
         private void SetVisualDragging(bool dragging)
         {
             SpriteRenderer sr = GetComponent<SpriteRenderer>();

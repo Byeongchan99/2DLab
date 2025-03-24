@@ -3,29 +3,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackRange : MonoBehaviour
+namespace DiceKingdom
 {
-    private Tower parentTower;
-
-    void Awake()
+    public class AttackRange : MonoBehaviour
     {
-        // 부모에 있는 Tower 컴포넌트를 찾습니다.
-        parentTower = GetComponentInParent<Tower>();
-    }
+        private Tower parentTower;
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (parentTower != null && other.gameObject.tag == "Enemy")
+        void Awake()
         {
-            parentTower.OnRangeTriggerEnter(other);
+            // 부모에 있는 Tower 컴포넌트
+            parentTower = GetComponentInParent<Tower>();
         }
-    }
 
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (parentTower != null)
+        void OnTriggerEnter2D(Collider2D other)
         {
-            parentTower.OnRangeTriggerExit(other);
+            if (parentTower != null && other.gameObject.tag == "Enemy")
+            {
+                parentTower.OnRangeTriggerEnter(other);
+            }
+        }
+
+        void OnTriggerExit2D(Collider2D other)
+        {
+            if (parentTower != null)
+            {
+                parentTower.OnRangeTriggerExit(other);
+            }
         }
     }
 }

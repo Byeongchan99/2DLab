@@ -10,6 +10,7 @@ namespace DiceKingdom
         public Tilemap pathTilemap;
         public List<Vector3> pathPositions;
 
+        // 경로 초기화
         public void InitializePath(Vector3 spawnPoint, Vector3 endPoint)
         {
             pathPositions.Clear();
@@ -38,6 +39,7 @@ namespace DiceKingdom
             pathPositions = CalculateOrderedPath(worldPositions, spawnPoint, endPoint);
         }
 
+        // 경로 계산
         List<Vector3> CalculateOrderedPath(List<Vector3> positions, Vector3 start, Vector3 end)
         {
             List<Vector3> ordered = new List<Vector3>();
@@ -56,6 +58,7 @@ namespace DiceKingdom
             return ordered;
         }
 
+        // 가장 가까운 위치 찾기
         Vector3 GetClosestPosition(Vector3 current, List<Vector3> positions)
         {
             Vector3 closest = positions[0];

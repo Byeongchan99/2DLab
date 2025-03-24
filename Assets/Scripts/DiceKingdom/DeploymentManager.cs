@@ -39,7 +39,7 @@ public class DeploymentManager : MonoBehaviour
         {
             Debug.Log($"배치 타일: {placementTile.name}");
             Vector3 targetPos = placementTilemap.GetCellCenterWorld(cellPos);
-            // UI 타워와 게임 월드 타워를 구분합니다.
+            // UI 타워와 게임 월드 타워를 구분
             if (selectedDeployable is TowerUI)
             {
                 // UI 타워인 경우 실제 타워 프리팹을 인스턴스화하고 UI 타워는 제거
